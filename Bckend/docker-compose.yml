@@ -198,44 +198,44 @@ services:
       discovery-service:
         condition: service_started
 
-  # World Cup Service (puerto 8083)
-  worldcup-service:
-    build:
-      context: ./worldcup-service/worldcup-service
-      dockerfile: Dockerfile
-    container_name: worldcup-service
-    ports:
-      - "${WORLDCUP_SERVICE_PORT}:8083"
-    environment:
-      SPRING_APPLICATION_NAME: worldcup-service
-      SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8083
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
-      CONFIG_SERVER_URL: http://config-service:8888
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-      SPRING_REDIS_HOST: redis
-      SPRING_REDIS_PORT: 6379
-      RABBITMQ_HOST: rabbitmq
-      RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
-      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      API_SPORTS_KEY: ${API_SPORTS_KEY}
-      API_SPORTS_URL: ${API_SPORTS_URL}
-    networks:
-      - world-cup-network
-    depends_on:
-      postgres:
-        condition: service_healthy
-      flyway:
-        condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-      discovery-service:
-        condition: service_started
+  # World Cup Service (puerto 8083) - DISABLED temporalmente para liberar conexiones PostgreSQL
+  # worldcup-service:
+  #   build:
+  #     context: ./worldcup-service/worldcup-service
+  #     dockerfile: Dockerfile
+  #   container_name: worldcup-service
+  #   ports:
+  #     - "${WORLDCUP_SERVICE_PORT}:8083"
+  #   environment:
+  #     SPRING_APPLICATION_NAME: worldcup-service
+  #     SPRING_PROFILES_ACTIVE: docker
+  #     SERVER_PORT: 8083
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
+  #     CONFIG_SERVER_URL: http://config-service:8888
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+  #     SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+  #     SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+  #     SPRING_REDIS_HOST: redis
+  #     SPRING_REDIS_PORT: 6379
+  #     RABBITMQ_HOST: rabbitmq
+  #     RABBITMQ_PORT: 5672
+  #     RABBITMQ_USERNAME: ${RABBITMQ_USER}
+  #     RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+  #     API_SPORTS_KEY: ${API_SPORTS_KEY}
+  #     API_SPORTS_URL: ${API_SPORTS_URL}
+  #   networks:
+  #     - world-cup-network
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     flyway:
+  #       condition: service_completed_successfully
+  #     redis:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_healthy
+  #     discovery-service:
+  #       condition: service_started
 
   # Prediction Service (puerto 8084)
   prediction-service:

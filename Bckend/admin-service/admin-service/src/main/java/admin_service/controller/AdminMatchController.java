@@ -37,8 +37,9 @@ public class AdminMatchController {
     @PostMapping
     public ResponseEntity<ManualMatchResponse> createMatch(
             @Valid @RequestBody ManualMatchRequest request,
+            @RequestHeader("X-User-Id") Long adminId,
             @RequestHeader("X-Admin-Email") String adminEmail) {
-        ManualMatchResponse response = adminMatchService.createMatch(request, adminEmail);
+        ManualMatchResponse response = adminMatchService.createMatch(request, adminId, adminEmail);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -46,31 +47,35 @@ public class AdminMatchController {
     public ResponseEntity<ManualMatchResponse> updateMatch(
             @PathVariable Long id,
             @Valid @RequestBody ManualMatchRequest request,
+            @RequestHeader("X-User-Id") Long adminId,
             @RequestHeader("X-Admin-Email") String adminEmail) {
-        return ResponseEntity.ok(adminMatchService.updateMatch(id, request, adminEmail));
+        return ResponseEntity.ok(adminMatchService.updateMatch(id, request, adminId, adminEmail));
     }
 
     @PutMapping("/{id}/result")
     public ResponseEntity<ManualMatchResponse> updateMatchResult(
             @PathVariable Long id,
             @Valid @RequestBody MatchResultUpdateRequest request,
+            @RequestHeader("X-User-Id") Long adminId,
             @RequestHeader("X-Admin-Email") String adminEmail) {
-        return ResponseEntity.ok(adminMatchService.updateMatchResult(id, request, adminEmail));
+        return ResponseEntity.ok(adminMatchService.updateMatchResult(id, request, adminId, adminEmail));
     }
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<ManualMatchResponse> updateMatchStatus(
             @PathVariable Long id,
             @RequestParam String status,
+            @RequestHeader("X-User-Id") Long adminId,
             @RequestHeader("X-Admin-Email") String adminEmail) {
-        return ResponseEntity.ok(adminMatchService.updateMatchStatus(id, status, adminEmail));
+        return ResponseEntity.ok(adminMatchService.updateMatchStatus(id, status, adminId, adminEmail));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMatch(
             @PathVariable Long id,
+            @RequestHeader("X-User-Id") Long adminId,
             @RequestHeader("X-Admin-Email") String adminEmail) {
-        adminMatchService.deleteMatch(id, adminEmail);
+        adminMatchService.deleteMatch(id, adminId, adminEmail);
         return ResponseEntity.noContent().build();
     }
 }

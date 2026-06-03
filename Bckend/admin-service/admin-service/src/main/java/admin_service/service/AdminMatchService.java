@@ -43,7 +43,7 @@ public class AdminMatchService {
     }
 
     @Transactional
-    public ManualMatchResponse createMatch(ManualMatchRequest request, String adminEmail) {
+    public ManualMatchResponse createMatch(ManualMatchRequest request, Long adminId, String adminEmail) {
         ManualMatch match = new ManualMatch();
         match.setHomeTeam(request.getHomeTeam());
         match.setAwayTeam(request.getAwayTeam());
@@ -61,14 +61,14 @@ public class AdminMatchService {
 
         auditService.log("CREATE", "ManualMatch", saved.getId(),
                 "Match created: " + request.getHomeTeam() + " vs " + request.getAwayTeam(),
-                null, adminEmail);
+                adminId, adminEmail);
 
         log.info("Manual match created: {} vs {} by {}", request.getHomeTeam(), request.getAwayTeam(), adminEmail);
         return ManualMatchResponse.fromEntity(saved);
     }
 
     @Transactional
-    public ManualMatchResponse updateMatch(Long id, ManualMatchRequest request, String adminEmail) {
+    public ManualMatchResponse updateMatch(Long id, ManualMatchRequest request, Long adminId, String adminEmail) {
         ManualMatch match = matchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ManualMatch", id));
 
@@ -84,14 +84,14 @@ public class AdminMatchService {
 
         auditService.log("UPDATE", "ManualMatch", saved.getId(),
                 "Match updated: " + request.getHomeTeam() + " vs " + request.getAwayTeam(),
-                null, adminEmail);
+                adminId, adminEmail);
 
         log.info("Manual match updated: id={} by {}", id, adminEmail);
         return ManualMatchResponse.fromEntity(saved);
     }
 
     @Transactional
-    public ManualMatchResponse updateMatchResult(Long id, MatchResultUpdateRequest request, String adminEmail) {
+    public ManualMatchResponse updateMatchResult(Long id, MatchResultUpdateRequest request, Long adminId, String adminEmail) {
         ManualMatch match = matchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ManualMatch", id));
 
@@ -109,7 +109,7 @@ public class AdminMatchService {
         auditService.log("RESULT_UPDATE", "ManualMatch", saved.getId(),
                 "Result updated: " + request.getHomeScore() + "-" + request.getAwayScore()
                         + " Winner: " + request.getWinner(),
-                null, adminEmail);
+                adminId, adminEmail);
 
         log.info("Match result updated: id={} {} - {} by {}",
                 id, request.getHomeScore(), request.getAwayScore(), adminEmail);
@@ -117,7 +117,7 @@ public class AdminMatchService {
     }
 
     @Transactional
-    public ManualMatchResponse updateMatchStatus(Long id, String status, String adminEmail) {
+    public ManualMatchResponse updateMatchStatus(Long id, String status, Long adminId, String adminEmail) {
         ManualMatch match = matchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ManualMatch", id));
 
@@ -129,14 +129,14 @@ public class AdminMatchService {
 
         auditService.log("STATUS_UPDATE", "ManualMatch", saved.getId(),
                 "Status changed to: " + newStatus,
-                null, adminEmail);
+                adminId, adminEmail);
 
         log.info("Match status updated: id={} status={} by {}", id, newStatus, adminEmail);
         return ManualMatchResponse.fromEntity(saved);
     }
 
     @Transactional
-    public void deleteMatch(Long id, String adminEmail) {
+    public void deleteMatch(Long id, Long adminId, String adminEmail) {
         ManualMatch match = matchRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("ManualMatch", id));
 
@@ -144,7 +144,7 @@ public class AdminMatchService {
 
         auditService.log("DELETE", "ManualMatch", id,
                 "Match deleted: " + match.getHomeTeam() + " vs " + match.getAwayTeam(),
-                null, adminEmail);
+                adminId, adminEmail);
 
         log.info("Manual match deleted: id={} by {}", id, adminEmail);
     }
