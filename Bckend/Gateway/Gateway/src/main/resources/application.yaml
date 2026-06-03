@@ -1,0 +1,138 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        # Auth Service (endpoints públicos de auth NO requieren JWT)
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /$\{segment}
+
+        # Organization Service
+        - id: organization-service
+          uri: lb://organization-service
+          predicates:
+            - Path=/api/organization/**
+          filters:
+            - RewritePath=/api/organization/(?<segment>.*), /$\{segment}
+
+        # World Cup Service
+        - id: worldcup-service
+          uri: lb://worldcup-service
+          predicates:
+            - Path=/api/worldcup/**
+          filters:
+            - RewritePath=/api/worldcup/(?<segment>.*), /$\{segment}
+
+        # Prediction Service
+        - id: prediction-service
+          uri: lb://prediction-service
+          predicates:
+            - Path=/api/predictions/**
+          filters:
+            - RewritePath=/api/predictions/(?<segment>.*), /$\{segment}
+
+        # Scoring Service
+        - id: scoring-service
+          uri: lb://scoring-service
+          predicates:
+            - Path=/api/scoring/**
+          filters:
+            - RewritePath=/api/scoring/(?<segment>.*), /$\{segment}
+
+        # Leaderboard Service
+        - id: leaderboard-service
+          uri: lb://leaderboard-service
+          predicates:
+            - Path=/api/leaderboard/**
+          filters:
+            - RewritePath=/api/leaderboard/(?<segment>.*), /$\{segment}
+
+        # Social Service (con WebSocket)
+        - id: social-service
+          uri: lb://social-service
+          predicates:
+            - Path=/api/social/**
+          filters:
+            - RewritePath=/api/social/(?<segment>.*), /$\{segment}
+
+        - id: social-websocket
+          uri: lb://social-service
+          predicates:
+            - Path=/ws/chat/**
+          filters:
+            - RewritePath=/ws/chat/(?<segment>.*), /$\{segment}
+
+        # Gamification Service
+        - id: gamification-service
+          uri: lb://gamification-service
+          predicates:
+            - Path=/api/gamification/**
+          filters:
+            - RewritePath=/api/gamification/(?<segment>.*), /$\{segment}
+
+        # Notification Service
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<segment>.*), /$\{segment}
+
+        # Admin Service
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - RewritePath=/api/admin/(?<segment>.*), /$\{segment}
+
+        # Group Service
+        - id: group-service
+          uri: lb://group-service
+          predicates:
+            - Path=/api/groups/**
+          filters:
+            - RewritePath=/api/groups/(?<segment>.*), /$\{segment}
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: ${JWT_SECRET:tecsup-world-cup-secret-key-2026}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
