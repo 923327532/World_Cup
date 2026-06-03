@@ -9,8 +9,7 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: false
 
       routes:
         # Auth Service (endpoints públicos de auth NO requieren JWT)
@@ -100,13 +99,13 @@ spring:
           filters:
             - RewritePath=/api/admin/(?<segment>.*), /$\{segment}
 
-        # Group Service
+        # Group Service (rooms/groups)
         - id: group-service
           uri: lb://group-service
           predicates:
             - Path=/api/groups/**
           filters:
-            - RewritePath=/api/groups/(?<segment>.*), /$\{segment}
+            - StripPrefix=1
 
       globalcors:
         cors-configurations:
