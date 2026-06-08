@@ -1,0 +1,11 @@
+<section class="page" *ngIf="match$ | async as match">
+  <header>
+    <app-badge label="LIVE" tone="live"></app-badge>
+    <h1>{{ match.homeTeam }} vs {{ match.awayTeam }}</h1>
+  </header>
+  <app-match-card [match]="match"></app-match-card>
+  <mat-card class="timeline">
+    <mat-card-title>Actualizacion en vivo</mat-card-title>
+    <p>El marcador se refresca automaticamente con el stream disponible.</p>
+  </mat-card>
+</section>

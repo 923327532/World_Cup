@@ -1,0 +1,33 @@
+mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.entry {
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 32px 1fr auto;
+  padding: 0.75rem 0;
+}
+
+.entry:last-child {
+  border-bottom: 0;
+}
+
+span {
+  background: #ecfeff;
+  border-radius: 50%;
+  color: #0f766e;
+  display: inline-grid;
+  font-weight: 800;
+  height: 32px;
+  place-items: center;
+  width: 32px;
+}
+
+em {
+  color: #64748b;
+  font-style: normal;
+}

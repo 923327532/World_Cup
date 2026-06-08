@@ -1,0 +1,14 @@
+<section class="page">
+  <header>
+    <h1>Partidos</h1>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput [formControl]="selectedDate" type="date" />
+    </mat-form-field>
+  </header>
+  <div class="matches">
+    <a *ngFor="let match of matches$ | async" [routerLink]="['/matches', match.id]">
+      <app-match-card [match]="match"></app-match-card>
+    </a>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+<section class="page">
+  <h1>Premios</h1>
+  <mat-list>
+    <mat-list-item *ngFor="let reward of rewards$ | async">
+      <mat-icon matListItemIcon>redeem</mat-icon>
+      <span matListItemTitle>{{ reward.title }}</span>
+      <span matListItemLine>{{ reward.description }}</span>
+    </mat-list-item>
+  </mat-list>
+</section>

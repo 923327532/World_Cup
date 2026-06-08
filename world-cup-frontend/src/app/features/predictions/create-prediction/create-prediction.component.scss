@@ -1,0 +1,32 @@
+.page {
+  padding: 1.5rem;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  padding: 1rem;
+}
+
+button {
+  height: 56px;
+}
+
+@media (max-width: 900px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+}

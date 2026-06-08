@@ -1,0 +1,2 @@
+-- Initial platform seed is handled by Flyway migrations:
+-- V2__seed_data.sql, V5__seed_worldcup_2026_matches.sql, and V6__update_scoring_to_scale_1_10.sql.

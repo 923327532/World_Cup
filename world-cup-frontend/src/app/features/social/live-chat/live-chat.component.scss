@@ -1,0 +1,34 @@
+mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+form {
+  align-items: start;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr auto;
+  margin-bottom: 1rem;
+}
+
+.comment {
+  border-top: 1px solid #e5e7eb;
+  padding: 0.85rem 0;
+}
+
+.comment div {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+span {
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+p {
+  color: #334155;
+  margin: 0.45rem 0;
+}

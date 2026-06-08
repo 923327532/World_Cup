@@ -1,0 +1,29 @@
+:host {
+  background: #0b1220;
+  color: #fff;
+  display: block;
+  min-height: calc(100vh - 64px);
+  width: 248px;
+}
+
+nav {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+a {
+  align-items: center;
+  border-radius: 8px;
+  color: #cbd5e1;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  text-decoration: none;
+}
+
+a.active,
+a:hover {
+  background: #12312f;
+  color: #ffffff;
+}

@@ -1,0 +1,6 @@
+<div class="reactions">
+  <button mat-stroked-button type="button" *ngFor="let emoji of options" (click)="reaction.emit(emoji)">
+    {{ emoji }}
+  </button>
+  <span *ngFor="let item of entries()">{{ item[0] }} {{ item[1] }}</span>
+</div>

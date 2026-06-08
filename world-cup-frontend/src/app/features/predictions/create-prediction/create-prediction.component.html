@@ -1,0 +1,37 @@
+<section class="page">
+  <header>
+    <h1>Predicciones</h1>
+    <a mat-stroked-button routerLink="/predictions/history">
+      <mat-icon>history</mat-icon>
+      Historial
+    </a>
+  </header>
+  <mat-card>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Partido</mat-label>
+        <mat-select formControlName="matchId">
+          <mat-option *ngFor="let match of matches$ | async" [value]="match.id">
+            {{ match.homeTeam }} vs {{ match.awayTeam }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de prediccion</mat-label>
+        <mat-select formControlName="predictionTypeId">
+          <mat-option *ngFor="let type of predictionTypes$ | async" [value]="type.id">
+            {{ type.name }} ({{ type.points }} pts)
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Valor</mat-label>
+        <input matInput formControlName="predictionValue" placeholder="2-1, ganador, etc." />
+      </mat-form-field>
+      <button mat-flat-button color="primary" type="submit">
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </form>
+  </mat-card>
+</section>

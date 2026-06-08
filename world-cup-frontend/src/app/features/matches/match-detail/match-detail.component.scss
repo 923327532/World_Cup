@@ -1,0 +1,38 @@
+.page {
+  padding: 1.5rem;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+h1,
+p {
+  margin: 0;
+}
+
+p,
+em {
+  color: #64748b;
+  font-style: normal;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+}
+
+.main {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

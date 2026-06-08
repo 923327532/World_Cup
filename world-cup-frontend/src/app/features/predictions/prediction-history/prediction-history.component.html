@@ -1,0 +1,19 @@
+<section class="page">
+  <header>
+    <h1>Historial</h1>
+    <a mat-flat-button color="primary" routerLink="/predictions">
+      <mat-icon>add</mat-icon>
+      Nueva
+    </a>
+  </header>
+
+  <mat-card *ngFor="let prediction of predictions$ | async">
+    <div>
+      <strong>{{ prediction.matchLabel || ('Partido #' + prediction.matchId) }}</strong>
+      <span>{{ prediction.createdAt | appDate }}</span>
+    </div>
+    <b>{{ prediction.predictionValue }}</b>
+    <app-badge [label]="prediction.isLocked ? 'Bloqueada' : 'Editable'" [tone]="prediction.isLocked ? 'neutral' : 'success'"></app-badge>
+    <em>{{ (prediction.points || 0) | points }}</em>
+  </mat-card>
+</section>

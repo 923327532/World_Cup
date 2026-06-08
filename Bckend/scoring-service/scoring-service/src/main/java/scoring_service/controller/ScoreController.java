@@ -2,7 +2,7 @@ package scoring_service.controller;
 
 import scoring_service.dto.ScoreHistoryDTO;
 import scoring_service.dto.UserScoreDTO;
-import scoring_service.service.ScoreCalculatorService;
+import scoring_service.service.UserScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,16 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScoreController {
 
-    private final ScoreCalculatorService scoreCalculatorService;
+    private final UserScoreService userScoreService;
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<UserScoreDTO> getUserScore(@PathVariable Long userId) {
-        Long totalPoints = scoreCalculatorService.getUserScore(userId);
-        return ResponseEntity.ok(new UserScoreDTO(userId, totalPoints));
+        return ResponseEntity.ok(userScoreService.getUserScore(userId));
     }
 
     @GetMapping("/user/{userId}/history")
     public ResponseEntity<List<ScoreHistoryDTO>> getUserScoreHistory(@PathVariable Long userId) {
-        return ResponseEntity.ok(scoreCalculatorService.getUserScoreHistory(userId));
+        return ResponseEntity.ok(userScoreService.getUserScoreHistory(userId));
     }
 }

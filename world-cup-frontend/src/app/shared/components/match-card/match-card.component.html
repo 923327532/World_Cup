@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-content>
+    <div class="match-head">
+      <app-badge [label]="match.status" [tone]="match.status === 'LIVE' ? 'live' : match.status === 'FINISHED' ? 'success' : 'neutral'"></app-badge>
+      <span>{{ match.kickoffTime | appDate }}</span>
+    </div>
+
+    <div class="score-line">
+      <strong>{{ match.homeTeam }}</strong>
+      <span class="score">{{ match.homeScore ?? '-' }} : {{ match.awayScore ?? '-' }}</span>
+      <strong>{{ match.awayTeam }}</strong>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # ============================================
   # INFRAESTRUCTURA BASE
@@ -18,6 +16,8 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./infrastructure/postgres/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     networks:
       - world-cup-network
     healthcheck:
@@ -167,18 +167,18 @@ services:
       discovery-service:
         condition: service_started
 
-  # Organization Service (puerto 8082)
+  # Organization Service (puerto 8083)
   organization-service:
     build:
       context: ./organization-service/organization-service
       dockerfile: Dockerfile
     container_name: organization-service
     ports:
-      - "${ORGANIZATION_SERVICE_PORT}:8082"
+      - "${ORGANIZATION_SERVICE_PORT}:8083"
     environment:
       SPRING_APPLICATION_NAME: organization-service
       SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8082
+      SERVER_PORT: 8083
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
       CONFIG_SERVER_URL: http://config-service:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -198,55 +198,16 @@ services:
       discovery-service:
         condition: service_started
 
-  # World Cup Service (puerto 8083) - DISABLED temporalmente para liberar conexiones PostgreSQL
-  # worldcup-service:
-  #   build:
-  #     context: ./worldcup-service/worldcup-service
-  #     dockerfile: Dockerfile
-  #   container_name: worldcup-service
-  #   ports:
-  #     - "${WORLDCUP_SERVICE_PORT}:8083"
-  #   environment:
-  #     SPRING_APPLICATION_NAME: worldcup-service
-  #     SPRING_PROFILES_ACTIVE: docker
-  #     SERVER_PORT: 8083
-  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
-  #     CONFIG_SERVER_URL: http://config-service:8888
-  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
-  #     SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-  #     SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-  #     SPRING_REDIS_HOST: redis
-  #     SPRING_REDIS_PORT: 6379
-  #     RABBITMQ_HOST: rabbitmq
-  #     RABBITMQ_PORT: 5672
-  #     RABBITMQ_USERNAME: ${RABBITMQ_USER}
-  #     RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-  #     API_SPORTS_KEY: ${API_SPORTS_KEY}
-  #     API_SPORTS_URL: ${API_SPORTS_URL}
-  #   networks:
-  #     - world-cup-network
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #     flyway:
-  #       condition: service_completed_successfully
-  #     redis:
-  #       condition: service_healthy
-  #     rabbitmq:
-  #       condition: service_healthy
-  #     discovery-service:
-  #       condition: service_started
-
-  # Prediction Service (puerto 8084)
-  prediction-service:
+  # World Cup Service (puerto 8084)
+  worldcup-service:
     build:
-      context: ./prediction-service/prediction-service
+      context: ./worldcup-service/worldcup-service
       dockerfile: Dockerfile
-    container_name: prediction-service
+    container_name: worldcup-service
     ports:
-      - "${PREDICTION_SERVICE_PORT}:8084"
+      - "${WORLDCUP_SERVICE_PORT}:8084"
     environment:
-      SPRING_APPLICATION_NAME: prediction-service
+      SPRING_APPLICATION_NAME: worldcup-service
       SPRING_PROFILES_ACTIVE: docker
       SERVER_PORT: 8084
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
@@ -254,9 +215,48 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      API_SPORTS_KEY: ${API_SPORTS_KEY}
+      API_SPORTS_URL: ${API_SPORTS_URL}
+    networks:
+      - world-cup-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      flyway:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      discovery-service:
+        condition: service_started
+
+  # Prediction Service (puerto 8085)
+  prediction-service:
+    build:
+      context: ./prediction-service/prediction-service
+      dockerfile: Dockerfile
+    container_name: prediction-service
+    ports:
+      - "${PREDICTION_SERVICE_PORT}:8085"
+    environment:
+      SPRING_APPLICATION_NAME: prediction-service
+      SPRING_PROFILES_ACTIVE: docker
+      SERVER_PORT: 8085
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
+      CONFIG_SERVER_URL: http://config-service:8888
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -270,18 +270,18 @@ services:
       discovery-service:
         condition: service_started
 
-  # Scoring Service (puerto 8085)
+  # Scoring Service (puerto 8086)
   scoring-service:
     build:
       context: ./scoring-service/scoring-service
       dockerfile: Dockerfile
     container_name: scoring-service
     ports:
-      - "${SCORING_SERVICE_PORT}:8085"
+      - "${SCORING_SERVICE_PORT}:8086"
     environment:
       SPRING_APPLICATION_NAME: scoring-service
       SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8085
+      SERVER_PORT: 8086
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
       CONFIG_SERVER_URL: http://config-service:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -291,7 +291,7 @@ services:
       SPRING_REDIS_PORT: 6379
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -307,18 +307,18 @@ services:
       discovery-service:
         condition: service_started
 
-  # Leaderboard Service (puerto 8086)
+  # Leaderboard Service (puerto 8087)
   leaderboard-service:
     build:
       context: ./leaderboard-service/leaderboard-service
       dockerfile: Dockerfile
     container_name: leaderboard-service
     ports:
-      - "${LEADERBOARD_SERVICE_PORT}:8086"
+      - "${LEADERBOARD_SERVICE_PORT}:8087"
     environment:
       SPRING_APPLICATION_NAME: leaderboard-service
       SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8086
+      SERVER_PORT: 8087
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
       CONFIG_SERVER_URL: http://config-service:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -328,7 +328,7 @@ services:
       SPRING_DATA_REDIS_PORT: 6379
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -344,18 +344,18 @@ services:
       discovery-service:
         condition: service_started
 
-  # Social Service (puerto 8087)
+  # Social Service (puerto 8088)
   social-service:
     build:
       context: ./social-service/social-service
       dockerfile: Dockerfile
     container_name: social-service
     ports:
-      - "${SOCIAL_SERVICE_PORT}:8087"
+      - "${SOCIAL_SERVICE_PORT}:8088"
     environment:
       SPRING_APPLICATION_NAME: social-service
       SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8087
+      SERVER_PORT: 8088
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
       CONFIG_SERVER_URL: http://config-service:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -363,7 +363,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -377,18 +377,18 @@ services:
       discovery-service:
         condition: service_started
 
-  # Gamification Service (puerto 8088)
+  # Gamification Service (puerto 8089)
   gamification-service:
     build:
       context: ./gamification-service/gamification-service
       dockerfile: Dockerfile
     container_name: gamification-service
     ports:
-      - "${GAMIFICATION_SERVICE_PORT}:8088"
+      - "${GAMIFICATION_SERVICE_PORT}:8089"
     environment:
       SPRING_APPLICATION_NAME: gamification-service
       SPRING_PROFILES_ACTIVE: docker
-      SERVER_PORT: 8088
+      SERVER_PORT: 8089
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-service:8761/eureka/
       CONFIG_SERVER_URL: http://config-service:8888
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
@@ -396,7 +396,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -428,7 +428,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -460,7 +460,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
     networks:
       - world-cup-network
@@ -493,7 +493,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORT: 5672
-      RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
       BREVO_API_KEY: ${BREVO_API_KEY}
       BREVO_SMTP_SERVER: ${BREVO_SMTP_SERVER}

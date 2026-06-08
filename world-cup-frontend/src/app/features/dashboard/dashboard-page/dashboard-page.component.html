@@ -1,0 +1,24 @@
+<section class="page">
+  <header>
+    <div>
+      <p>Resumen</p>
+      <h1>{{ (tournament$ | async)?.name || 'Mundial 2026' }}</h1>
+    </div>
+    <a mat-flat-button color="primary" routerLink="/predictions">
+      <mat-icon>edit_note</mat-icon>
+      Nueva prediccion
+    </a>
+  </header>
+
+  <div class="stats">
+    <mat-card><strong>{{ (score$ | async)?.totalPoints || 0 }}</strong><span>Puntos</span></mat-card>
+    <mat-card><strong>{{ (tournament$ | async)?.year || 2026 }}</strong><span>Edicion</span></mat-card>
+    <mat-card><strong>104</strong><span>Partidos</span></mat-card>
+  </div>
+
+  <div class="grid">
+    <app-active-matches></app-active-matches>
+    <app-top-ranking></app-top-ranking>
+    <app-live-users></app-live-users>
+  </div>
+</section>

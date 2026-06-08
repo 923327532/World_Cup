@@ -1,0 +1,26 @@
+main {
+  align-items: center;
+  background: linear-gradient(135deg, #052e2b, #101827 55%, #7f1d1d);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.25rem;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 8px;
+  max-width: 460px;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+.brand {
+  align-items: center;
+  color: #0f766e;
+  display: flex;
+  font-size: 1.1rem;
+  font-weight: 800;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}

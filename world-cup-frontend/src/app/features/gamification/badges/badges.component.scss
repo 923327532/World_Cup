@@ -1,0 +1,28 @@
+.page {
+  padding: 1.5rem;
+}
+
+.badges {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+mat-icon {
+  color: #0f766e;
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.locked {
+  opacity: 0.58;
+}

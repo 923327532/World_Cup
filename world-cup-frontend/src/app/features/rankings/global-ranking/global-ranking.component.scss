@@ -1,0 +1,27 @@
+.page {
+  padding: 1.5rem;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+table {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+mat-icon {
+  color: #0f766e;
+}

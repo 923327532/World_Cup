@@ -1,0 +1,33 @@
+.page {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+header,
+mat-card {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 1rem;
+}
+
+span,
+em {
+  color: #64748b;
+  display: block;
+  font-style: normal;
+}
+
+b {
+  background: #111827;
+  border-radius: 8px;
+  color: white;
+  padding: 0.45rem 0.75rem;
+}

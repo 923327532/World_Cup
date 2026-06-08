@@ -40,4 +40,38 @@ public class ApiFootballClient {
                 .retrieve()
                 .bodyToMono(String.class);
     }
+
+    public Mono<String> getTeams(Long leagueId, Integer season) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/teams")
+                        .queryParam("league", leagueId)
+                        .queryParam("season", season)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getPlayers(Long leagueId, Integer season, Long teamId) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/players")
+                        .queryParam("league", leagueId)
+                        .queryParam("season", season)
+                        .queryParam("team", teamId)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class);
+    }
+
+    public Mono<String> getLiveMatches(Long leagueId) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/fixtures")
+                        .queryParam("league", leagueId)
+                        .queryParam("live", "all")
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class);
+    }
 }

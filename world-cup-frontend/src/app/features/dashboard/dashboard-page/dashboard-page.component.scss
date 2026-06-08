@@ -1,0 +1,66 @@
+.page {
+  padding: 1.5rem;
+}
+
+header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #0f766e;
+  font-weight: 800;
+  margin: 0 0 0.25rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.stats,
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.stats mat-card {
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 1rem;
+}
+
+.stats strong {
+  display: block;
+  font-size: 2rem;
+}
+
+.stats span {
+  color: #64748b;
+}
+
+.grid {
+  grid-template-columns: 1.5fr 1fr;
+}
+
+app-live-users {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 900px) {
+  header,
+  .grid {
+    display: grid;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}

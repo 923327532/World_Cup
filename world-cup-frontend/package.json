@@ -1,0 +1,45 @@
+{
+  "name": "world-cup-frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "packageManager": "npm@11.12.1",
+  "dependencies": {
+    "@angular/animations": "^21.2.16",
+    "@angular/cdk": "^22.0.0",
+    "@angular/common": "^22.0.0",
+    "@angular/compiler": "^22.0.0",
+    "@angular/core": "^22.0.0",
+    "@angular/forms": "^22.0.0",
+    "@angular/material": "^22.0.0",
+    "@angular/platform-browser": "^22.0.0",
+    "@angular/platform-browser-dynamic": "^21.2.16",
+    "@angular/router": "^22.0.0",
+    "@ngrx/effects": "^21.1.0",
+    "@ngrx/store": "^21.1.0",
+    "@ngrx/store-devtools": "^21.1.0",
+    "@swimlane/ngx-charts": "^24.0.0-alpha.1",
+    "moment": "^2.30.1",
+    "rxjs": "~7.8.0",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.0.0",
+    "@angular/cli": "^22.0.0",
+    "@angular/compiler-cli": "^22.0.0",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.10",
+    "jsdom": "^28.0.0",
+    "prettier": "^3.8.1",
+    "typescript": "~6.0.2",
+    "vitest": "^4.0.8"
+  }
+}

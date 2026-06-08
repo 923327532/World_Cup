@@ -18,7 +18,7 @@ spring:
           predicates:
             - Path=/api/auth/**
           filters:
-            - RewritePath=/api/auth/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/auth/(?<segment>.*), /auth/$\{segment}
 
         # Organization Service
         - id: organization-service
@@ -42,7 +42,21 @@ spring:
           predicates:
             - Path=/api/predictions/**
           filters:
-            - RewritePath=/api/predictions/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/predictions/(?<segment>.*), /predictions/$\{segment}
+
+        - id: prediction-types-service-root
+          uri: lb://prediction-service
+          predicates:
+            - Path=/api/prediction-types
+          filters:
+            - SetPath=/prediction-types
+
+        - id: prediction-types-service
+          uri: lb://prediction-service
+          predicates:
+            - Path=/api/prediction-types/**
+          filters:
+            - RewritePath=/api/prediction-types/(?<segment>.*), /prediction-types/$\{segment}
 
         # Scoring Service
         - id: scoring-service
@@ -50,7 +64,7 @@ spring:
           predicates:
             - Path=/api/scoring/**
           filters:
-            - RewritePath=/api/scoring/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/scoring/(?<segment>.*), /scoring/$\{segment}
 
         # Leaderboard Service
         - id: leaderboard-service
@@ -58,7 +72,7 @@ spring:
           predicates:
             - Path=/api/leaderboard/**
           filters:
-            - RewritePath=/api/leaderboard/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/leaderboard/(?<segment>.*), /leaderboard/$\{segment}
 
         # Social Service (con WebSocket)
         - id: social-service
@@ -89,7 +103,7 @@ spring:
           predicates:
             - Path=/api/notifications/**
           filters:
-            - RewritePath=/api/notifications/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/notifications/(?<segment>.*), /notifications/$\{segment}
 
         # Admin Service
         - id: admin-service

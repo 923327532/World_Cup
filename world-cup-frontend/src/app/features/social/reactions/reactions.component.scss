@@ -1,0 +1,19 @@
+.reactions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+button {
+  min-width: 42px;
+  padding: 0 0.45rem;
+}
+
+span {
+  background: #f1f5f9;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 0.82rem;
+  padding: 0.2rem 0.5rem;
+}

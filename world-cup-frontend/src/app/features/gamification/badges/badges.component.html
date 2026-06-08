@@ -1,0 +1,12 @@
+<section class="page">
+  <h1>Insignias</h1>
+  <div class="badges">
+    <mat-card *ngFor="let badge of badges$ | async">
+      <mat-icon>{{ badge.icon }}</mat-icon>
+      <strong>{{ badge.name }}</strong>
+      <p>{{ badge.description }}</p>
+      <small *ngIf="(userBadges$ | async)?.length; else none">Obtenida por el usuario</small>
+    </mat-card>
+  </div>
+</section>
+<ng-template #none></ng-template>

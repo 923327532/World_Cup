@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Top ranking</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="entry" *ngFor="let item of (ranking$ | async)?.slice(0, 4)">
+      <span>{{ item.rankingPosition }}</span>
+      <strong>Usuario {{ item.userId }}</strong>
+      <em>{{ item.points | points }}</em>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,8 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Partidos en vivo</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="list">
+    <app-match-card *ngFor="let match of matches$ | async" [match]="match"></app-match-card>
+  </mat-card-content>
+</mat-card>
