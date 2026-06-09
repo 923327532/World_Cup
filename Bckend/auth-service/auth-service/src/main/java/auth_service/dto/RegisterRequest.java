@@ -2,6 +2,7 @@ package auth_service.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class RegisterRequest {
     private String lastName;
 
     @NotBlank
+    @Pattern(regexp = "STUDENT|TEACHER", message = "Role must be STUDENT or TEACHER")
     private String role; // STUDENT or TEACHER
 
     private String studentCode; // Required for students

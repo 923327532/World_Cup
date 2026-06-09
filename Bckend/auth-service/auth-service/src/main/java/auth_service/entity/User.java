@@ -41,6 +41,9 @@ public class User {
     @Column(nullable = false, length = 100)
     private String lastName;
 
+    @Column(name = "student_code", length = 30, unique = true)
+    private String studentCode;
+
     @Column(name = "email_verified")
     private Boolean emailVerified = false;
 

@@ -11,5 +11,6 @@ import java.util.List;
 public interface TeamRepository extends JpaRepository<Team, Long> {
     Optional<Team> findByApiTeamId(Long apiTeamId);
     Optional<Team> findByName(String name);
+    Optional<Team> findByCode(String code);
     List<Team> findByNameContainingIgnoreCase(String name);
 }

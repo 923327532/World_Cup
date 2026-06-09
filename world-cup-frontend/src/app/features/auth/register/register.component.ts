@@ -17,7 +17,7 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     role: ['STUDENT', Validators.required],
@@ -26,6 +26,7 @@ export class RegisterComponent {
 
   errorMessage: string | null = null;
   isLoading = false;
+  hidePassword = true;
 
   submit(): void {
     if (this.form.invalid) return;

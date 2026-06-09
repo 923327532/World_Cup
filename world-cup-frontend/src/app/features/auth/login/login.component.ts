@@ -22,6 +22,7 @@ export class LoginComponent {
 
   errorMessage: string | null = null;
   isLoading = false;
+  hidePassword = true;
 
   submit(): void {
     if (this.form.invalid) return;

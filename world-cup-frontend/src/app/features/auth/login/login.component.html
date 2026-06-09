@@ -13,7 +13,16 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" />
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+        (click)="hidePassword = !hidePassword"
+      >
+        <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
     </mat-form-field>
 
     <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid || isLoading">

@@ -18,7 +18,16 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput type="password" formControlName="password" />
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+        (click)="hidePassword = !hidePassword"
+      >
+        <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Rol</mat-label>
@@ -31,10 +40,14 @@
       <mat-label>Codigo estudiantil</mat-label>
       <input matInput formControlName="studentCode" />
     </mat-form-field>
-    <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid">
-      <mat-icon>person_add</mat-icon>
-      Registrarme
+    <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid || isLoading">
+      <mat-icon>{{ isLoading ? 'hourglass_top' : 'person_add' }}</mat-icon>
+      {{ isLoading ? 'Creando cuenta...' : 'Registrarme' }}
     </button>
+
+    <div class="auth-error" *ngIf="errorMessage" aria-live="polite">
+      {{ errorMessage }}
+    </div>
   </form>
 
   <a class="auth-link" routerLink="/auth/login">Ya tengo cuenta</a>

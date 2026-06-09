@@ -41,6 +41,10 @@ public class Match {
     @JoinColumn(name = "away_team_id")
     private Team awayTeam;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stadium_id")
+    private Stadium stadium;
+
     private LocalDateTime kickoffTime;
 
     private Integer homeScore;
@@ -52,4 +56,10 @@ public class Match {
 
     @Column(length = 100)
     private String venue;
+
+    @Column(name = "home_team_label", length = 150)
+    private String homeTeamLabel;
+
+    @Column(name = "away_team_label", length = 150)
+    private String awayTeamLabel;
 }
