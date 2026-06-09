@@ -1,20 +1,31 @@
-export interface Prediction {
-  id?: number;
-  userId?: number;
+export interface PredictionDTO {
+  id: number;
+  userId: number;
   matchId: number;
+  homeTeam: string;
+  awayTeam: string;
   predictionTypeId: number;
-  predictionType?: string;
+  predictionType: string;
   predictionValue: string;
-  points?: number;
-  isLocked?: boolean;
-  createdAt?: string;
-  updatedAt?: string;
-  matchLabel?: string;
+  points: number;
+  createdAt: string;
+  updatedAt: string;
+  isLocked: boolean;
 }
 
-export interface PredictionType {
+export interface PredictionTypeDTO {
   id: number;
   code: string;
   name: string;
   points: number;
+}
+
+export interface CreatePredictionRequest {
+  matchId: number;
+  predictionTypeId: number;
+  predictionValue: string;
+}
+
+export interface UpdatePredictionRequest {
+  predictedValue: string;
 }

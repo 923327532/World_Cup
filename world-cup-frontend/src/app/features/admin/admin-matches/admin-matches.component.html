@@ -1,0 +1,189 @@
+<section class="admin-page">
+  <header class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <mat-icon>sports_soccer</mat-icon>
+      </div>
+      <div class="header-text">
+        <p class="subtitle">Gestión de Partidos</p>
+        <h1>Administrar Partidos del Mundial</h1>
+      </div>
+    </div>
+    <button mat-flat-button class="create-btn" (click)="openCreateForm()">
+      <mat-icon>add_circle</mat-icon>
+      Nuevo Partido
+    </button>
+  </header>
+
+  <div class="filters">
+    <div class="status-filters">
+      <button
+        *ngFor="let status of statusOptions"
+        class="status-btn"
+        [class.active]="selectedStatus === status.value"
+        [style.border-color]="status.color"
+        (click)="onStatusChange(status.value)"
+      >
+        <span class="dot" [style.background]="status.color"></span>
+        {{ status.label }}
+      </button>
+    </div>
+  </div>
+
+  <div class="matches-container" *ngIf="!showForm">
+    <div class="loading" *ngIf="isLoading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando partidos...</p>
+    </div>
+
+    <div class="matches-grid" *ngIf="!isLoading">
+      <mat-card class="match-card" *ngFor="let match of matches$ | async">
+        <div class="match-header">
+          <span class="match-id">#{{ match.id }}</span>
+          <span class="match-status" [style.color]="getStatusColor(match.status)">
+            <mat-icon>{{ getStatusIcon(match.status) }}</mat-icon>
+            {{ match.status }}
+          </span>
+        </div>
+
+        <div class="match-body">
+          <div class="teams">
+            <div class="team home">
+              <div class="team-badge">{{ match.homeTeam.charAt(0) }}</div>
+              <span class="team-name">{{ match.homeTeam }}</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="team away">
+              <div class="team-badge">{{ match.awayTeam.charAt(0) }}</div>
+              <span class="team-name">{{ match.awayTeam }}</span>
+            </div>
+          </div>
+
+          <div class="match-details">
+            <div class="detail" *ngIf="match.homeScore !== undefined">
+              <mat-icon>sports_score</mat-icon>
+              <span>{{ match.homeScore }} - {{ match.awayScore }}</span>
+            </div>
+            <div class="detail" *ngIf="match.venue">
+              <mat-icon>location_on</mat-icon>
+              <span>{{ match.venue }}</span>
+            </div>
+            <div class="detail" *ngIf="match.stage">
+              <mat-icon>emoji_events</mat-icon>
+              <span>{{ match.stage }}</span>
+            </div>
+            <div class="detail" *ngIf="match.groupName">
+              <mat-icon>group_work</mat-icon>
+              <span>Grupo {{ match.groupName }}</span>
+            </div>
+            <div class="detail">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ match.startTime | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="match-actions">
+          <button mat-icon-button matTooltip="Editar" (click)="openEditForm(match)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button matTooltip="Actualizar Resultado" (click)="updateResult(match)">
+            <mat-icon>update</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="statusMenu" matTooltip="Cambiar Estado">
+            <mat-icon>swap_horiz</mat-icon>
+          </button>
+          <mat-menu #statusMenu="matMenu">
+            <button mat-menu-item (click)="updateStatus(match, 'SCHEDULED')">
+              <mat-icon>schedule</mat-icon>
+              <span>Programado</span>
+            </button>
+            <button mat-menu-item (click)="updateStatus(match, 'LIVE')">
+              <mat-icon>live_tv</mat-icon>
+              <span>En Vivo</span>
+            </button>
+            <button mat-menu-item (click)="updateStatus(match, 'FINISHED')">
+              <mat-icon>check_circle</mat-icon>
+              <span>Finalizado</span>
+            </button>
+          </mat-menu>
+          <button mat-icon-button matTooltip="Eliminar" (click)="deleteMatch(match)">
+            <mat-icon class="delete-icon">delete</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && (matches$ | async)?.length === 0">
+      <mat-icon>sports_soccer</mat-icon>
+      <h3>No hay partidos</h3>
+      <p>Crea un nuevo partido para comenzar</p>
+      <button mat-flat-button color="primary" (click)="openCreateForm()">
+        <mat-icon>add_circle</mat-icon>
+        Crear Partido
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="form-container" *ngIf="showForm">
+    <mat-card-header>
+      <h2>{{ editingMatch ? 'Editar Partido' : 'Crear Nuevo Partido' }}</h2>
+      <button mat-icon-button (click)="closeForm()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="matchForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Equipo Local</mat-label>
+            <input matInput formControlName="homeTeam" placeholder="Ej: Argentina" />
+            <mat-error *ngIf="matchForm.get('homeTeam')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Equipo Visitante</mat-label>
+            <input matInput formControlName="awayTeam" placeholder="Ej: Brasil" />
+            <mat-error *ngIf="matchForm.get('awayTeam')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha y Hora</mat-label>
+            <input matInput type="datetime-local" formControlName="startTime" />
+            <mat-error *ngIf="matchForm.get('startTime')?.hasError('required')">
+              Campo requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Estadio</mat-label>
+            <input matInput formControlName="venue" placeholder="Ej: Estadio Azteca" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fase</mat-label>
+            <input matInput formControlName="stage" placeholder="Ej: Cuartos de Final" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Grupo</mat-label>
+            <input matInput formControlName="groupName" placeholder="Ej: A" />
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" (click)="closeForm()">Cancelar</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="matchForm.invalid">
+            <mat-icon>{{ editingMatch ? 'save' : 'add_circle' }}</mat-icon>
+            {{ editingMatch ? 'Actualizar' : 'Crear' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

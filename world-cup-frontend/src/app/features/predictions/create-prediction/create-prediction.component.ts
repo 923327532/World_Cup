@@ -3,13 +3,13 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { PredictionApiService } from '../../../services/api/prediction-api.service';
 import { MatchApiService } from '../../../services/api/match-api.service';
 import { NotificationService } from '../../../core/services/notification.service';
-import { PredictionType } from '../../../models/prediction.model';
+import { PredictionTypeDTO } from '../../../models/prediction.model';
 
 @Component({
   selector: 'app-create-prediction',
   templateUrl: './create-prediction.component.html',
   styleUrls: ['./create-prediction.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class CreatePredictionComponent {
   private readonly fb = inject(FormBuilder);
@@ -22,7 +22,7 @@ export class CreatePredictionComponent {
   readonly form = this.fb.group({
     matchId: [1, Validators.required],
     predictionTypeId: [1, Validators.required],
-    predictionValue: ['', Validators.required]
+    predictionValue: ['', Validators.required],
   });
 
   submit(): void {

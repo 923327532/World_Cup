@@ -3,7 +3,7 @@
   <mat-list>
     <mat-list-item *ngFor="let reward of rewards$ | async">
       <mat-icon matListItemIcon>redeem</mat-icon>
-      <span matListItemTitle>{{ reward.title }}</span>
+      <span matListItemTitle>{{ reward.name }}</span>
       <span matListItemLine>{{ reward.description }}</span>
     </mat-list-item>
   </mat-list>

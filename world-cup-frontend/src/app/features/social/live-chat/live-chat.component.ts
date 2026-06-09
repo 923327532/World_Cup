@@ -9,7 +9,7 @@ import { WebsocketService } from '../../../core/services/websocket.service';
   selector: 'app-live-chat',
   templateUrl: './live-chat.component.html',
   styleUrls: ['./live-chat.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class LiveChatComponent implements OnDestroy {
   private readonly fb = inject(FormBuilder);
@@ -29,7 +29,7 @@ export class LiveChatComponent implements OnDestroy {
   currentMatchId = 1;
   comments$: Observable<SocialComment[]> = this.socialApiService.getComments(1);
   readonly form = this.fb.group({
-    content: ['', [Validators.required, Validators.maxLength(180)]]
+    content: ['', [Validators.required, Validators.maxLength(180)]],
   });
 
   send(): void {
@@ -42,7 +42,7 @@ export class LiveChatComponent implements OnDestroy {
   }
 
   react(commentId: number, emoji: string): void {
-    this.socialApiService.react(commentId, emoji);
+    this.socialApiService.addReaction(commentId, emoji).subscribe();
     this.comments$ = this.socialApiService.getComments(this.currentMatchId);
   }
 

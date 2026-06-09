@@ -1,0 +1,93 @@
+<section class="admin-page">
+  <header class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <mat-icon>history</mat-icon>
+      </div>
+      <div class="header-text">
+        <p class="subtitle">Registro de Actividad</p>
+        <h1>Logs de Auditoría</h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="filter-buttons">
+      <button
+        *ngFor="let type of actionTypes"
+        class="filter-btn"
+        [class.active]="filterType === type.value"
+        [style.border-color]="type.color"
+        (click)="onFilterChange(type.value)"
+      >
+        <mat-icon>{{ type.icon }}</mat-icon>
+        {{ type.label }}
+      </button>
+    </div>
+
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar en logs...</mat-label>
+      <input matInput [(ngModel)]="searchQuery" placeholder="Acción, entidad, email..." />
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="audit-container">
+    <div class="loading" *ngIf="isLoading">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando logs de auditoría...</p>
+    </div>
+
+    <div class="audit-list" *ngIf="!isLoading">
+      <ng-container *ngIf="auditLogs$ | async as logs">
+        <ng-container *ngIf="getFilteredLogs(logs).length > 0; else noResults">
+          <div class="audit-card" *ngFor="let log of getFilteredLogs(logs); trackBy: trackByLogId">
+            <div class="audit-icon" [style.background]="getActionGradient(log.action)">
+              <mat-icon>{{ getActionIcon(log.action) }}</mat-icon>
+            </div>
+
+            <div class="audit-content">
+              <div class="audit-header">
+                <h3>{{ log.action }}</h3>
+                <span class="audit-date">{{ log.createdAt | date: 'dd/MM/yyyy HH:mm:ss' }}</span>
+              </div>
+
+              <div class="audit-details">
+                <div class="detail-item">
+                  <mat-icon>{{ getEntityIcon(log.entityType) }}</mat-icon>
+                  <span class="entity-type">{{ log.entityType }}</span>
+                  <span class="entity-id">#{{ log.entityId }}</span>
+                </div>
+
+                <div class="detail-item admin-info">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  <span>{{ log.adminEmail }}</span>
+                  <span class="admin-id">ID: {{ log.adminId }}</span>
+                </div>
+
+                <div class="detail-item" *ngIf="log.details">
+                  <mat-icon>description</mat-icon>
+                  <span class="details-text">{{ log.details }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noResults>
+          <div class="empty-state">
+            <mat-icon>search_off</mat-icon>
+            <h3>Sin resultados</h3>
+            <p>No se encontraron logs con los filtros aplicados</p>
+          </div>
+        </ng-template>
+      </ng-container>
+    </div>
+
+    <div class="empty-state" *ngIf="!isLoading && (auditLogs$ | async)?.length === 0">
+      <mat-icon>history</mat-icon>
+      <h3>Sin registros de auditoría</h3>
+      <p>No hay actividad registrada aún</p>
+    </div>
+  </div>
+</section>

@@ -1,25 +1,118 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, of } from 'rxjs';
-import { API_ENDPOINTS } from '../../core/constants/api.constants';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { API_ENDPOINTS, CACHE_TTL } from '../../core/constants/api.constants';
+import { CacheService } from '../../core/services/cache.service';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
-
-export interface Tournament {
-  id: number;
-  name: string;
-  year: number;
-  startDate: string;
-  endDate: string;
-}
+import { MatchDTO, PlayerDTO, TeamDTO, TournamentDTO } from '../../models/worldcup.model';
 
 @Injectable({ providedIn: 'root' })
 export class WorldcupApiService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cache: CacheService,
+  ) {}
 
-  getCurrentTournament(): Observable<Tournament> {
-    return this.http.get<Tournament>(`${API_ENDPOINTS.worldcup}/tournaments/current`, { context: this.silentContext() }).pipe(
-      catchError(() => of({ id: 1, name: 'World Cup 2026', year: 2026, startDate: '2026-06-11', endDate: '2026-07-19' }))
+  getTournaments(): Observable<TournamentDTO[]> {
+    return this.http
+      .get<TournamentDTO[]>(API_ENDPOINTS.tournaments, { context: this.silentContext() })
+      .pipe(catchError(() => of([])));
+  }
+
+  getCurrentTournament(): Observable<TournamentDTO> {
+    return this.http
+      .get<TournamentDTO>(`${API_ENDPOINTS.tournaments}/current`, { context: this.silentContext() })
+      .pipe(
+        catchError(() =>
+          of({
+            id: 1,
+            name: 'FIFA World Cup',
+            year: 2026,
+            startDate: '2026-06-11',
+            endDate: '2026-07-19',
+            status: 'ACTIVE',
+          }),
+        ),
+      );
+  }
+
+  getTournamentById(id: number): Observable<TournamentDTO> {
+    return this.http
+      .get<TournamentDTO>(`${API_ENDPOINTS.tournaments}/${id}`, { context: this.silentContext() })
+      .pipe(
+        catchError(() =>
+          of({
+            id,
+            name: 'FIFA World Cup',
+            year: 2026,
+            startDate: '2026-06-11',
+            endDate: '2026-07-19',
+            status: 'ACTIVE',
+          }),
+        ),
+      );
+  }
+
+  getTeams(name?: string): Observable<TeamDTO[]> {
+    const url = name ? `${API_ENDPOINTS.teams}?name=${name}` : API_ENDPOINTS.teams;
+    return this.http
+      .get<TeamDTO[]>(url, { context: this.silentContext() })
+      .pipe(catchError(() => of([])));
+  }
+
+  getTeamById(id: number): Observable<TeamDTO> {
+    return this.http
+      .get<TeamDTO>(`${API_ENDPOINTS.teams}/${id}`, { context: this.silentContext() })
+      .pipe(catchError(() => of({ id, name: 'Unknown', code: 'UNK' })));
+  }
+
+  getPlayersByTeam(teamId: number): Observable<PlayerDTO[]> {
+    return this.http
+      .get<
+        PlayerDTO[]
+      >(`${API_ENDPOINTS.players}/team/${teamId}`, { context: this.silentContext() })
+      .pipe(catchError(() => of([])));
+  }
+
+  getPlayerById(id: number): Observable<PlayerDTO> {
+    return this.http
+      .get<PlayerDTO>(`${API_ENDPOINTS.players}/${id}`, { context: this.silentContext() })
+      .pipe(
+        catchError(() => of({ id, name: 'Unknown', position: 'Unknown', number: 0, teamId: 0 })),
+      );
+  }
+
+  getMatchesByDate(date: string): Observable<MatchDTO[]> {
+    return this.cached(`matches:${date}`, CACHE_TTL.scheduledMatches, () =>
+      this.http
+        .get<
+          MatchDTO[]
+        >(`${API_ENDPOINTS.worldcup}/matches/date/${date}`, { context: this.silentContext() })
+        .pipe(catchError(() => of([]))),
     );
+  }
+
+  getMatchById(id: number): Observable<MatchDTO> {
+    return this.http
+      .get<MatchDTO>(`${API_ENDPOINTS.worldcup}/matches/${id}`, { context: this.silentContext() })
+      .pipe(
+        catchError(() =>
+          of({
+            id,
+            homeTeamId: 0,
+            awayTeamId: 0,
+            homeTeam: 'Unknown',
+            awayTeam: 'Unknown',
+            kickoffTime: new Date().toISOString(),
+            status: 'SCHEDULED',
+          }),
+        ),
+      );
+  }
+
+  private cached<T>(key: string, ttl: number, request: () => Observable<T>): Observable<T> {
+    const cached = this.cache.get<T>(key, ttl);
+    return cached ? of(cached) : request().pipe(tap((data) => this.cache.set(key, data)));
   }
 
   private silentContext(): HttpContext {

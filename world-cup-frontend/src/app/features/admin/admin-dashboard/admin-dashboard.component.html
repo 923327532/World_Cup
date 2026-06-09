@@ -1,0 +1,115 @@
+<section class="admin-page">
+  <header class="page-header">
+    <div class="header-content">
+      <div class="header-icon">
+        <mat-icon>admin_panel_settings</mat-icon>
+      </div>
+      <div class="header-text">
+        <p class="subtitle">Panel de Control</p>
+        <h1>Administración Mundial 2026</h1>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-flat-button color="primary" routerLink="/admin/matches">
+        <mat-icon>sports_soccer</mat-icon>
+        Gestionar Partidos
+      </button>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card total">
+      <div class="stat-icon">
+        <mat-icon>sports_soccer</mat-icon>
+      </div>
+      <div class="stat-info">
+        <strong>{{ stats.totalMatches }}</strong>
+        <span>Total Partidos</span>
+      </div>
+    </div>
+    <div class="stat-card live">
+      <div class="stat-icon">
+        <mat-icon>live_tv</mat-icon>
+      </div>
+      <div class="stat-info">
+        <strong>{{ stats.liveMatches }}</strong>
+        <span>En Vivo</span>
+      </div>
+      <div class="stat-pulse"></div>
+    </div>
+    <div class="stat-card scheduled">
+      <div class="stat-icon">
+        <mat-icon>schedule</mat-icon>
+      </div>
+      <div class="stat-info">
+        <strong>{{ stats.scheduledMatches }}</strong>
+        <span>Programados</span>
+      </div>
+    </div>
+    <div class="stat-card finished">
+      <div class="stat-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="stat-info">
+        <strong>{{ stats.finishedMatches }}</strong>
+        <span>Finalizados</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <mat-card class="recent-matches">
+      <mat-card-header>
+        <mat-icon>recent_actors</mat-icon>
+        <h2>Partidos Recientes</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="match-list">
+          <div class="match-item" *ngFor="let match of matches$ | async | slice: 0 : 5">
+            <div class="match-teams">
+              <span class="team home">{{ match.homeTeam }}</span>
+              <span class="vs">vs</span>
+              <span class="team away">{{ match.awayTeam }}</span>
+            </div>
+            <div class="match-info">
+              <span class="status" [class]="match.status.toLowerCase()">{{ match.status }}</span>
+              <span class="score" *ngIf="match.homeScore !== undefined"
+                >{{ match.homeScore }} - {{ match.awayScore }}</span
+              >
+              <span class="date">{{ match.startTime | date: 'short' }}</span>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="(matches$ | async)?.length === 0">
+            <mat-icon>sports_soccer</mat-icon>
+            <p>No hay partidos registrados</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="recent-audit">
+      <mat-card-header>
+        <mat-icon>history</mat-icon>
+        <h2>Actividad Reciente</h2>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="audit-list">
+          <div class="audit-item" *ngFor="let log of auditLogs$ | async | slice: 0 : 5">
+            <div class="audit-icon" [class]="log.action.toLowerCase()">
+              <mat-icon>{{ getAuditIcon(log.action) }}</mat-icon>
+            </div>
+            <div class="audit-info">
+              <strong>{{ log.action }}</strong>
+              <span>{{ log.entityType }} #{{ log.entityId }}</span>
+              <small>{{ log.createdAt | date: 'short' }}</small>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="(auditLogs$ | async)?.length === 0">
+            <mat-icon>history</mat-icon>
+            <p>Sin actividad reciente</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
