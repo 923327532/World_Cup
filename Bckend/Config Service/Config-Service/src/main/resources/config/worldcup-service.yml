@@ -35,7 +35,7 @@ eureka:
 
 api:
   football:
-    api-key: ${API_SPORTS_KEY:your-api-key-here}
+    api-key: ${API_SPORTS_KEY:8b08c7d941c2593665d49fd849b18f82}
     base-url: ${API_SPORTS_URL:https://v3.football.api-sports.io}
     league-id: 71
     season: 2024
