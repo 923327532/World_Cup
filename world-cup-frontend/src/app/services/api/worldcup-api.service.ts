@@ -103,7 +103,9 @@ export class WorldcupApiService {
     return this.http
       .get<PlayerDTO>(`${API_ENDPOINTS.players}/${id}`, { context: this.silentContext() })
       .pipe(
-        catchError(() => of({ id, name: 'Unknown', position: 'Unknown', number: 0, teamId: 0 })),
+        catchError(() =>
+          of({ id, name: 'Unknown', fullName: 'Unknown', position: 'Unknown', number: 0, teamId: 0 }),
+        ),
       );
   }
 

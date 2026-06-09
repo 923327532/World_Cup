@@ -61,7 +61,7 @@
         <p>Jugadores del equipo local (top 5)</p>
         <ul>
           <li *ngFor="let player of players.slice(0, 5)">
-            {{ player.name }} · {{ player.position }} #{{ player.number }}
+            {{ player.fullName || player.name || 'Unknown' }} · {{ player.position || 'N/A' }} #{{ player.number || '-' }}
           </li>
         </ul>
       </div>
