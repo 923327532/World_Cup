@@ -48,7 +48,7 @@ export class AuthApiService {
     }
 
     if (httpError.status === 403) {
-      return throwError(() => new Error(serverMessage || 'Acceso denegado. Si acabas de registrarte, verifica tu correo antes de iniciar sesión.'));
+      return throwError(() => new Error(serverMessage || 'No se pudo iniciar sesion con esos datos. Verifica correo y contrasena o registra una cuenta nueva.'));
     }
 
     if (httpError.status === 409) {
