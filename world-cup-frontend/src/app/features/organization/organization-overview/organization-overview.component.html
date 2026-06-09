@@ -6,11 +6,21 @@
 
   <mat-card *ngIf="user$ | async as user">
     <mat-card-title>Perfil academico</mat-card-title>
-    <mat-card-content *ngIf="profile$ | async as profile">
+    <mat-card-content>
       <div class="row"><strong>Rol:</strong><span>{{ user.role }}</span></div>
       <div class="row"><strong>Usuario:</strong><span>{{ user.email }}</span></div>
-      <div class="row" *ngIf="user.role === 'TEACHER' && profile?.specialization"><strong>Especialidad:</strong><span>{{ profile?.specialization }}</span></div>
-      <div class="row" *ngIf="user.role !== 'TEACHER' && profile?.studentCode"><strong>Codigo:</strong><span>{{ profile?.studentCode }}</span></div>
+
+      <ng-container *ngIf="user.role === 'TEACHER' && (teacherProfile$ | async) as teacherProfile">
+        <div class="row" *ngIf="teacherProfile.specialization">
+          <strong>Especialidad:</strong><span>{{ teacherProfile.specialization }}</span>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="user.role !== 'TEACHER' && (studentProfile$ | async) as studentProfile">
+        <div class="row" *ngIf="studentProfile.studentCode">
+          <strong>Codigo:</strong><span>{{ studentProfile.studentCode }}</span>
+        </div>
+      </ng-container>
     </mat-card-content>
   </mat-card>
 

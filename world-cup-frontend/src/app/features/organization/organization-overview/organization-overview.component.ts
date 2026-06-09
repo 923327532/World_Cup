@@ -19,12 +19,16 @@ export class OrganizationOverviewComponent {
   readonly careers$ = this.organizationApiService.getCareers();
   readonly avatars$ = this.organizationApiService.getAvatars();
 
-  readonly profile$ = this.user$.pipe(
+  readonly teacherProfile$ = this.user$.pipe(
     switchMap((user) => {
-      if (!user) return of(null);
-      if (user.role === 'TEACHER') {
-        return this.organizationApiService.getTeacherProfileByUser(user.userId);
-      }
+      if (!user || user.role !== 'TEACHER') return of(null);
+      return this.organizationApiService.getTeacherProfileByUser(user.userId);
+    }),
+  );
+
+  readonly studentProfile$ = this.user$.pipe(
+    switchMap((user) => {
+      if (!user || user.role === 'TEACHER') return of(null);
       return this.organizationApiService.getStudentProfileByUser(user.userId);
     }),
   );
