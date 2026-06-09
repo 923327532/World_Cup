@@ -8,7 +8,6 @@ import auth_service.entity.User;
 import auth_service.repository.RoleRepository;
 import auth_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final EmailVerificationService emailVerificationService;
-
-    @Value("${auth.require-email-verification:false}")
-    private boolean requireEmailVerification;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -78,10 +74,6 @@ public class AuthService {
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciales inválidas");
-        }
-
-        if (requireEmailVerification && !user.getEmailVerified()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Correo no verificado");
         }
 
         String token = jwtService.generateToken(user.getId(), user.getEmail(), user.getRole().getName());
