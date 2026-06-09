@@ -7,7 +7,7 @@
     </mat-form-field>
   </header>
   <div class="matches">
-    <a *ngFor="let match of matches$ | async" [routerLink]="['/matches', match.id]">
+    <a *ngFor="let match of matches$ | async" [routerLink]="['/app/matches', match.id]">
       <app-match-card [match]="match"></app-match-card>
     </a>
   </div>
