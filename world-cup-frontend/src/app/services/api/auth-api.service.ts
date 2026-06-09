@@ -33,13 +33,29 @@ export class AuthApiService {
       return throwError(() => new Error(error.message || fallbackMessage));
     }
 
-    const httpError = error as { status?: number; error?: { message?: string } };
-    const serverMessage = httpError.error?.message;
+    const httpError = error as { status?: number; error?: { message?: string } | string };
+    const serverMessage =
+      typeof httpError.error === 'string'
+        ? httpError.error
+        : httpError.error?.message;
+
     if (httpError.status === 0) {
       return throwError(() => new Error(fallbackMessage));
     }
 
-    return throwError(() => new Error(serverMessage || 'Credenciales inválidas o servidor no disponible.'));
+    if (httpError.status === 401) {
+      return throwError(() => new Error(serverMessage || 'Credenciales inválidas. Verifica tu correo y contraseña.'));
+    }
+
+    if (httpError.status === 403) {
+      return throwError(() => new Error(serverMessage || 'Acceso denegado. Si acabas de registrarte, verifica tu correo antes de iniciar sesión.'));
+    }
+
+    if (httpError.status === 409) {
+      return throwError(() => new Error(serverMessage || 'El correo ya está registrado. Inicia sesión o usa otro correo.'));
+    }
+
+    return throwError(() => new Error(serverMessage || `Error ${httpError.status || ''}`.trim()));
   }
 
   login(payload: LoginRequest): Observable<AuthResponse> {

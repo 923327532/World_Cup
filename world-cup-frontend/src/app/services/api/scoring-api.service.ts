@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { API_ENDPOINTS } from '../../core/constants/api.constants';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
-import { ScoreHistoryDTO, UserScoreDTO } from '../../models/ranking.model';
+import { RoomRankingEntryDTO, ScoreHistoryDTO, UserScoreDTO } from '../../models/ranking.model';
 
 @Injectable({ providedIn: 'root' })
 export class ScoringApiService {
@@ -26,6 +26,14 @@ export class ScoringApiService {
       .get<
         ScoreHistoryDTO[]
       >(`${API_ENDPOINTS.scoring}/user/${userId}/history`, { context: this.silentContext() })
+      .pipe(catchError(() => of([])));
+  }
+
+  getRoomRanking(roomId: number): Observable<RoomRankingEntryDTO[]> {
+    return this.http
+      .get<RoomRankingEntryDTO[]>(`${API_ENDPOINTS.scoring}/rooms/${roomId}/ranking`, {
+        context: this.silentContext(),
+      })
       .pipe(catchError(() => of([])));
   }
 

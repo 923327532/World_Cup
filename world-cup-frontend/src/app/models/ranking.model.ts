@@ -61,8 +61,16 @@ export interface UserScoreDTO {
 export interface ScoreHistoryDTO {
   id: number;
   userId: number;
+  roomId?: number;
   points: number;
   reason: string;
   matchId?: number;
   createdAt: string;
+}
+
+export interface RoomRankingEntryDTO {
+  roomId: number;
+  userId: number;
+  rankingPosition: number;
+  totalPoints: number;
 }

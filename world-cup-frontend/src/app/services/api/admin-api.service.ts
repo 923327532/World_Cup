@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { API_ENDPOINTS } from '../../core/constants/api.constants';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
+import { AuthService } from '../../core/services/auth.service';
 import {
   AdminAuditLogResponse,
   ManualMatchRequest,
@@ -12,12 +13,19 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AdminApiService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
 
   private adminHeaders(): HttpHeaders {
-    const userId = localStorage.getItem('userId') || '';
-    const adminEmail = localStorage.getItem('adminEmail') || '';
-    return new HttpHeaders().set('X-User-Id', userId).set('X-Admin-Email', adminEmail);
+    const user = this.authService.getCurrentUser();
+    const headers: Record<string, string> = {};
+
+    if (user?.userId) headers['X-User-Id'] = String(user.userId);
+    if (user?.email) headers['X-Admin-Email'] = user.email;
+
+    return new HttpHeaders(headers);
   }
 
   getMatches(): Observable<ManualMatchResponse[]> {

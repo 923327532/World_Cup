@@ -4,9 +4,13 @@
       <p class="section-index">01 / CENTRO DE APUESTAS</p>
       <h1>ARMA TU<br /><em>PREDICCION.</em></h1>
       <p>
-        Selecciona el partido, define el mercado y guarda tu jugada antes del cierre de cuotas.
+        Selecciona una sala, define el partido y guarda tu jugada antes del cierre de cuotas.
       </p>
     </div>
+    <a class="history-link" mat-stroked-button routerLink="/app/groups">
+      <mat-icon>groups</mat-icon>
+      Mis salas
+    </a>
     <a class="history-link" mat-stroked-button routerLink="/predictions/history">
       <mat-icon>history</mat-icon>
       Historial
@@ -22,7 +26,11 @@
     <form class="bet-form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field appearance="outline">
         <mat-label>Sala</mat-label>
-        <input matInput type="number" min="1" formControlName="roomId" placeholder="ID de sala" />
+        <mat-select formControlName="roomId">
+          <mat-option *ngFor="let group of groups$ | async" [value]="group.id">
+            {{ group.name }} #{{ group.id }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Partido</mat-label>

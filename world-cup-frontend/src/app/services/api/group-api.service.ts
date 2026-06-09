@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { API_ENDPOINTS } from '../../core/constants/api.constants';
+import { AuthService } from '../../core/services/auth.service';
 import {
   BanResponse,
   CreateGroupRequest,
@@ -15,11 +16,14 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class GroupApiService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
 
   private userHeaders(): HttpHeaders {
-    const userId = localStorage.getItem('userId') || '';
-    return new HttpHeaders().set('X-User-Id', userId);
+    const userId = this.authService.getCurrentUser()?.userId;
+    return userId ? new HttpHeaders().set('X-User-Id', String(userId)) : new HttpHeaders();
   }
 
   getGroups(): Observable<RoomResponse[]> {
