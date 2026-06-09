@@ -23,6 +23,14 @@ export class MatchApiService {
     );
   }
 
+  getAllMatches(): Observable<Match[]> {
+    return this.cached('all-matches', CACHE_TTL.scheduledMatches, () =>
+      this.http
+        .get<Match[]>(`${API_ENDPOINTS.worldcup}/matches`, { context: this.silentContext() })
+        .pipe(catchError(() => of([]))),
+    );
+  }
+
   getLiveMatches(): Observable<Match[]> {
     return this.cached('live-matches', CACHE_TTL.liveMatches, () =>
       this.http

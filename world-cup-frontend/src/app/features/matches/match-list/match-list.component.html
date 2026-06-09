@@ -1,14 +1,27 @@
 <section class="page">
   <header>
     <h1>Partidos</h1>
-    <mat-form-field appearance="outline">
-      <mat-label>Fecha</mat-label>
-      <input matInput [formControl]="selectedDate" type="date" />
-    </mat-form-field>
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Filtrar por fecha</mat-label>
+        <input matInput [formControl]="dateFilter" type="date" />
+      </mat-form-field>
+      <button mat-stroked-button type="button" (click)="clearFilter()">Ver todas</button>
+    </div>
   </header>
-  <div class="matches">
-    <a *ngFor="let match of matches$ | async" [routerLink]="['/app/matches', match.id]">
-      <app-match-card [match]="match"></app-match-card>
-    </a>
-  </div>
+
+  <ng-container *ngIf="groupedMatches$ | async as groups">
+    <div *ngIf="groups.length === 0" class="empty-state">
+      No se encontraron partidos para el filtro seleccionado.
+    </div>
+
+    <section class="group" *ngFor="let group of groups">
+      <h2>{{ group.date | appDate }}</h2>
+      <div class="matches">
+        <a *ngFor="let match of group.matches" [routerLink]="['/app/matches', match.id]">
+          <app-match-card [match]="match"></app-match-card>
+        </a>
+      </div>
+    </section>
+  </ng-container>
 </section>

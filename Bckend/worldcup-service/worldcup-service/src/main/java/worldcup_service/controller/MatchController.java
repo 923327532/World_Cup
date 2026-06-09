@@ -20,6 +20,16 @@ public class MatchController {
     private final MatchService matchService;
     private final WorldCupPublicApiBridgeService worldCupPublicApiBridgeService;
 
+    @GetMapping
+    public ResponseEntity<List<MatchDTO>> getAllMatches() {
+        List<MatchDTO> localMatches = matchService.getAllMatches();
+        if (!localMatches.isEmpty()) {
+            return ResponseEntity.ok(localMatches);
+        }
+
+        return ResponseEntity.ok(worldCupPublicApiBridgeService.getGames());
+    }
+
     @GetMapping("/date/{date}")
     public ResponseEntity<List<MatchDTO>> getMatchesByDate(
         @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date

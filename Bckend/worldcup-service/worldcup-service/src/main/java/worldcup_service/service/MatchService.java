@@ -21,6 +21,13 @@ public class MatchService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional(readOnly = true)
+    public List<MatchDTO> getAllMatches() {
+        return matchRepository.findAll().stream()
+            .map(this::toDTO)
+            .toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<MatchDTO> getMatchesByDate(LocalDate date) {
         String cacheKey = "matches:" + date;
 
