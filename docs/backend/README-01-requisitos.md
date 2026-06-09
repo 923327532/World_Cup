@@ -221,7 +221,7 @@ Si acierta: ganador + marcador exacto + primer goleador = +100 puntos extra
 
 ---
 
-## 10. MICROSERVICIOS DEFINIDOS (8 servicios de negocio)
+## 10. MICROSERVICIOS DEFINIDOS (11 servicios de negocio)
 
 1. **Auth Service** - Autenticación y autorización
 2. **Organization Service** - Información institucional Tecsup
@@ -231,6 +231,14 @@ Si acierta: ganador + marcador exacto + primer goleador = +100 puntos extra
 6. **Leaderboard Service** - Rankings
 7. **Social Service** - Comentarios y comunidad
 8. **Gamification Service** - Insignias y premios
+9. **Notification Service** - Notificaciones y correo
+10. **Admin Service** - Gestión manual de partidos y auditoría administrativa
+11. **Group Service** - Salas privadas, membresías, invitaciones, reportes y baneos
+
+### Servicios de infraestructura
+- **API Gateway** - Punto de entrada único
+- **Discovery Service** - Registro y descubrimiento (Eureka)
+- **Config Service** - Configuración centralizada
 
 ---
 
@@ -300,24 +308,6 @@ Si acierta: ganador + marcador exacto + primer goleador = +100 puntos extra
 ## TAREA SIGUIENTE
 
 Una vez comprendidos estos requisitos, procede al README-02-base-datos.md para diseñar el esquema completo de la base de datos.
-
-ya tenemos las 12 microservico con toda la base seria que complemnntes de acuerdo acada prom quye te demos
-world-cup-platform
-│
-├── api-gateway
-├── discovery-service
-├── config-service
-│
-├── auth-service
-├── organization-service
-├── worldcup-service
-├── prediction-service
-├── scoring-service
-├── leaderboard-service
-├── social-service
-├── gamification-service
-├── notification-service
-│
 ├── common-library
 │
 ├── docker

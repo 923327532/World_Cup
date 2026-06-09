@@ -1,12 +1,7 @@
 server:
-  port: 8084
+  port: 8091
 
 spring:
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://config-service:8888}
-  application:
-    name: worldcup-service
-
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/worldcup_db
     username: ${POSTGRES_USER:admin}
@@ -21,10 +16,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  redis:
-    host: ${SPRING_REDIS_HOST:redis}
-    port: ${SPRING_REDIS_PORT:6379}
-
   rabbitmq:
     host: ${RABBITMQ_HOST:localhost}
     port: ${RABBITMQ_PORT:5672}
@@ -37,13 +28,6 @@ eureka:
       defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
   instance:
     prefer-ip-address: true
-
-api:
-  football:
-    api-key: ${API_SPORTS_KEY:your-api-key-here}
-    base-url: ${API_SPORTS_URL:https://v3.football.api-sports.io}
-    league-id: 71
-    season: 2024
 
 management:
   endpoints:

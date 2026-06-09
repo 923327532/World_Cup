@@ -41,6 +41,9 @@ config-service
 │   ├── application.yml
 │   ├── application-dev.yml
 │   └── config
+│       ├── api-gateway.yml
+│       ├── discovery-service.yml
+│       ├── config-service.yml
 │       ├── auth-service.yml
 │       ├── organization-service.yml
 │       ├── worldcup-service.yml
@@ -49,7 +52,9 @@ config-service
 │       ├── leaderboard-service.yml
 │       ├── social-service.yml
 │       ├── gamification-service.yml
-│       └── notification-service.yml
+│       ├── notification-service.yml
+│       ├── admin-service.yml
+│       └── group-service.yml
 │
 └── ConfigApplication.java
 ```
@@ -98,15 +103,13 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: native
   cloud:
     config:
       server:
-        git:
-          uri: file://${user.home}/world-cup-config-repo
-          # O usar un repositorio remoto:
-          # uri: https://github.com/tecsup/world-cup-config-repo
-          default-label: main
-          search-paths: config
+        native:
+          search-locations: classpath:/config,file:./config,file:../config
 
 eureka:
   client:
@@ -152,6 +155,8 @@ public class ConfigApplication {
 ---
 
 ## 5. CONFIGURACIONES POR SERVICIO
+
+Estado actual del proyecto: se publican configuraciones para infraestructura (gateway/discovery/config) y servicios de negocio (incluyendo admin/group).
 
 ### config/auth-service.yml
 ```yaml

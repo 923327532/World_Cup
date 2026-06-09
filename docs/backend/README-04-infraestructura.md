@@ -284,6 +284,9 @@ server {
 
 ## 8. SCRIPTS DE AUTOMATIZACIÓN
 
+> Nota de estado: en la estructura actual del repositorio no existe la carpeta `scripts/`.
+> Los ejemplos de esta sección son plantillas sugeridas para crearla cuando se formalice el flujo de automatización local.
+
 ### scripts/build-all.sh
 ```bash
 #!/bin/bash

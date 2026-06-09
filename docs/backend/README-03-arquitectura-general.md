@@ -33,6 +33,10 @@ world-cup-platform
 │
 ├── gamification-service
 │
+├── admin-service
+│
+├── group-service
+│
 ├── notification-service
 │
 ├── common-library
@@ -44,19 +48,13 @@ world-cup-platform
 │   ├── monitoring
 │   └── nginx
 │
-├── docker
-│
-├── scripts
-│
 ├── docs
 │
 ├── docker-compose.yml
 │
 ├── .env
 │
-├── README.md
-│
-└── pom.xml
+└── README.md
 ```
 
 ---
@@ -86,7 +84,7 @@ world-cup-platform
 
 ---
 
-## 3. MICROSERVICIOS DE NEGOCIO (9 servicios)
+## 3. MICROSERVICIOS DE NEGOCIO (11 servicios)
 
 ### 1. Auth Service
 - **Responsabilidad**: Autenticación y autorización
@@ -132,6 +130,16 @@ world-cup-platform
 - **Responsabilidad**: Notificaciones
 - **Tablas**: notifications
 - **Funciones**: Notificaciones, emails, alertas
+
+### 10. Admin Service
+- **Responsabilidad**: Administración operativa del torneo
+- **Tablas**: manual_matches, admin_audit_logs
+- **Funciones**: CRUD de partidos manuales, actualización de resultados, trazabilidad de acciones administrativas
+
+### 11. Group Service
+- **Responsabilidad**: Gestión de comunidades privadas
+- **Tablas**: rooms, room_members, room_invites, room_reports, room_bans
+- **Funciones**: Crear salas, gestionar miembros/roles, invitaciones, reportes de moderación, baneos
 
 ---
 
