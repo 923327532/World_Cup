@@ -1,7 +1,7 @@
 mat-toolbar {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-  color: #111827;
+  background: var(--landing-ink);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
 }
 
 .brand {
@@ -12,7 +12,7 @@ mat-toolbar {
 }
 
 .brand mat-icon {
-  color: #0f766e;
+  color: var(--landing-lime);
 }
 
 .spacer {
@@ -24,7 +24,7 @@ button {
 }
 
 .count {
-  background: #ef4444;
+  background: var(--landing-coral);
   border-radius: 999px;
   color: #fff;
   font-size: 0.65rem;

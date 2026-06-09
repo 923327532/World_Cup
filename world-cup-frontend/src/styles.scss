@@ -14,6 +14,15 @@ $custom-theme: mat.m2-define-light-theme((
 
 @include mat.all-component-themes($custom-theme);
 
+:root {
+  --landing-ink: #10131b;
+  --landing-paper: #f3f1eb;
+  --landing-lime: #c8ff36;
+  --landing-coral: #ff5b4d;
+  --landing-cyan: #39d5d2;
+  --landing-soft: rgba(16, 19, 27, 0.08);
+}
+
 // Global styles
 * {
   margin: 0;
@@ -23,8 +32,8 @@ $custom-theme: mat.m2-define-light-theme((
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f5f5f5;
-  color: #111827;
+  background-color: var(--landing-paper);
+  color: var(--landing-ink);
 }
 
 body.landing-menu-open {

@@ -16,10 +16,14 @@
       <input matInput type="password" formControlName="password" />
     </mat-form-field>
 
-    <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid">
-      <mat-icon>login</mat-icon>
-      Entrar al panel
+    <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid || isLoading">
+      <mat-icon>{{ isLoading ? 'hourglass_top' : 'login' }}</mat-icon>
+      {{ isLoading ? 'Verificando...' : 'Entrar al panel' }}
     </button>
+
+    <div class="auth-error" *ngIf="errorMessage" aria-live="polite">
+      {{ errorMessage }}
+    </div>
   </form>
 
   <a class="auth-link" routerLink="/auth/register">Crear cuenta</a>

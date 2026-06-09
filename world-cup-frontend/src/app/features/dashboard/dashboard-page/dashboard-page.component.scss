@@ -10,14 +10,17 @@ header {
 }
 
 p {
-  color: #0f766e;
+  color: var(--landing-cyan);
   font-weight: 800;
   margin: 0 0 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(2rem, 2.5vw, 3rem);
   margin: 0;
+  color: var(--landing-ink);
 }
 
 .stats,
@@ -28,22 +31,204 @@ h1 {
 
 .stats {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .stats mat-card {
-  border-radius: 8px;
-  box-shadow: none;
-  padding: 1rem;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(16, 19, 27, 0.08);
+  padding: 1.4rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), #ffffff);
 }
 
 .stats strong {
   display: block;
   font-size: 2rem;
+  color: var(--landing-ink);
 }
 
 .stats span {
   color: #64748b;
+}
+
+.user-hub {
+  background: #ffffff;
+  border: 1px solid var(--landing-soft);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(16, 19, 27, 0.06);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+.hub-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hub-header p {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hub-header h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.85rem;
+  color: var(--landing-ink);
+}
+
+.hub-header span {
+  color: #475569;
+  font-size: 0.95rem;
+  max-width: 520px;
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.hub-card {
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
+  color: #10131b;
+}
+
+.hub-card span {
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.hub-card h3 {
+  margin: 0.85rem 0 0.6rem;
+  font-size: 1.25rem;
+}
+
+.hub-card ul {
+  margin: 0.85rem 0 0;
+  padding-left: 1rem;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.hub-card ul li {
+  margin-bottom: 0.45rem;
+}
+
+.hub-card--lime {
+  background: rgba(200, 255, 54, 0.18);
+}
+
+.hub-card--cyan {
+  background: rgba(57, 213, 210, 0.12);
+}
+
+.hub-card--coral {
+  background: rgba(255, 91, 77, 0.14);
+}
+
+.hub-card--ink {
+  background: rgba(16, 19, 27, 0.04);
+}
+
+.hub-card--paper {
+  background: rgba(243, 241, 235, 0.8);
+}
+
+.hub-card--cyan-light {
+  background: rgba(57, 213, 210, 0.08);
+}
+
+.hub-card--coral-light {
+  background: rgba(255, 91, 77, 0.08);
+}
+
+.hub-card--soft {
+  background: rgba(16, 19, 27, 0.03);
+}
+
+.hub-card--ink-light {
+  background: rgba(16, 19, 27, 0.08);
+}
+
+.hub-card--lime-light {
+  background: rgba(200, 255, 54, 0.1);
+}
+
+.admin-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.3rem 1.5rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(16, 19, 27, 0.05), rgba(255, 255, 255, 0.95));
+  border: 1px solid rgba(16, 19, 27, 0.08);
+  margin-bottom: 1.2rem;
+}
+
+.admin-note__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  background: rgba(16, 19, 27, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-note__icon mat-icon {
+  color: var(--landing-ink);
+}
+
+.admin-note__text {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.admin-note__text strong {
+  display: block;
+  color: var(--landing-ink);
+  font-size: 1rem;
+}
+
+.admin-note__text p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.hub-grid--admin {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.hub-card--admin {
+  background: linear-gradient(135deg, rgba(16, 19, 27, 0.08), rgba(255, 233, 115, 0.12));
+}
+
+.hub-card--paper {
+  background: rgba(243, 241, 235, 0.8);
+}
+
+.hub-card a {
+  align-self: flex-start;
+  margin-top: 1.3rem;
 }
 
 .grid {
@@ -52,6 +237,13 @@ h1 {
 
 app-live-users {
   grid-column: 1 / -1;
+}
+
+@media (max-width: 1000px) {
+  .hub-grid,
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
