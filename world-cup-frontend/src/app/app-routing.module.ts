@@ -18,6 +18,7 @@ const routes: Routes = [
   {
     path: 'app',
     component: DashboardLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {

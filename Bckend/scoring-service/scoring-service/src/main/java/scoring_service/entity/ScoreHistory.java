@@ -21,7 +21,25 @@ public class ScoreHistory {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "room_id")
+    private Long roomId;
+
+    @Column(name = "match_id")
+    private Long matchId;
+
+    @Column(name = "prediction_id")
+    private Long predictionId;
+
     private Integer points;
+
+    @Column(name = "base_points")
+    private Integer basePoints;
+
+    @Column(name = "streak_bonus")
+    private Integer streakBonus;
+
+    @Column(name = "early_bonus")
+    private Integer earlyBonus;
 
     private String reason;
 

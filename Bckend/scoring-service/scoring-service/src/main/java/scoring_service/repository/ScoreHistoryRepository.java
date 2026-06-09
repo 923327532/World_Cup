@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public interface ScoreHistoryRepository extends JpaRepository<ScoreHistory, Long> {
     List<ScoreHistory> findByUserIdOrderByCreatedAtDesc(Long userId);
+    List<ScoreHistory> findByRoomId(Long roomId);
 
     @Query("SELECT sh FROM ScoreHistory sh WHERE sh.userId = ?1 AND sh.createdAt >= ?2 AND sh.reason LIKE '%correct%'")
     List<ScoreHistory> findRecentCorrectPredictions(Long userId, LocalDateTime since);

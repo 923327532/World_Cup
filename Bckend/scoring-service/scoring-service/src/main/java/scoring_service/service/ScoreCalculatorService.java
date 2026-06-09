@@ -1,5 +1,7 @@
 package scoring_service.service;
 
+import scoring_service.dto.PredictionScoreRequest;
+import scoring_service.dto.ScoreBreakdownDTO;
 import scoring_service.dto.ScoreHistoryDTO;
 import scoring_service.entity.ScoreHistory;
 import scoring_service.entity.UserScore;
@@ -25,6 +27,42 @@ public class ScoreCalculatorService {
     private final StreakService streakService;
     private final BonusService bonusService;
 
+    public ScoreBreakdownDTO calculatePredictionScore(PredictionScoreRequest request) {
+        validateScoreRequest(request);
+
+        int basePoints;
+        String ruleApplied;
+
+        if (isExactScore(request)) {
+            basePoints = 5;
+            ruleApplied = "EXACT_SCORE";
+        } else if (isSameOutcome(request)) {
+            basePoints = 3;
+            ruleApplied = "WINNER_OR_DRAW";
+        } else if (isSameGoalDifference(request)) {
+            basePoints = 2;
+            ruleApplied = "GOAL_DIFFERENCE";
+        } else {
+            basePoints = 0;
+            ruleApplied = "NO_POINTS";
+        }
+
+        boolean correctForStreak = basePoints > 0;
+        int streakBefore = request.currentStreakBeforeMatch() != null ? request.currentStreakBeforeMatch() : 0;
+        int streakAfter = correctForStreak ? streakBefore + 1 : 0;
+        int streakBonus = correctForStreak && streakAfter % 3 == 0 ? 2 : 0;
+        int earlyBonus = isEarlyPrediction(request) ? 1 : 0;
+
+        return new ScoreBreakdownDTO(
+            basePoints,
+            streakBonus,
+            earlyBonus,
+            basePoints + streakBonus + earlyBonus,
+            ruleApplied,
+            correctForStreak
+        );
+    }
+
     @Transactional
     public void addPoints(Long userId, Integer points, String reason) {
         UserScore userScore = userScoreRepository.findById(userId)
@@ -37,6 +75,9 @@ public class ScoreCalculatorService {
         ScoreHistory history = new ScoreHistory();
         history.setUserId(userId);
         history.setPoints(points);
+        history.setBasePoints(points);
+        history.setStreakBonus(0);
+        history.setEarlyBonus(0);
         history.setReason(reason);
         history.setCreatedAt(LocalDateTime.now());
         scoreHistoryRepository.save(history);
@@ -73,7 +114,54 @@ public class ScoreCalculatorService {
 
     public List<ScoreHistoryDTO> getUserScoreHistory(Long userId) {
         return scoreHistoryRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
-            .map(sh -> new ScoreHistoryDTO(sh.getId(), sh.getUserId(), sh.getPoints(), sh.getReason(), sh.getCreatedAt()))
+            .map(sh -> new ScoreHistoryDTO(
+                sh.getId(),
+                sh.getUserId(),
+                sh.getRoomId(),
+                sh.getMatchId(),
+                sh.getPredictionId(),
+                sh.getPoints(),
+                sh.getBasePoints(),
+                sh.getStreakBonus(),
+                sh.getEarlyBonus(),
+                sh.getReason(),
+                sh.getCreatedAt()
+            ))
             .toList();
+    }
+
+    private void validateScoreRequest(PredictionScoreRequest request) {
+        if (request.predictedHomeScore() == null || request.predictedAwayScore() == null ||
+            request.actualHomeScore() == null || request.actualAwayScore() == null) {
+            throw new IllegalArgumentException("Scores are required");
+        }
+
+        if (request.predictedHomeScore() < 0 || request.predictedAwayScore() < 0 ||
+            request.actualHomeScore() < 0 || request.actualAwayScore() < 0) {
+            throw new IllegalArgumentException("Scores cannot be negative");
+        }
+    }
+
+    private boolean isExactScore(PredictionScoreRequest request) {
+        return request.predictedHomeScore().equals(request.actualHomeScore()) &&
+            request.predictedAwayScore().equals(request.actualAwayScore());
+    }
+
+    private boolean isSameOutcome(PredictionScoreRequest request) {
+        return Integer.signum(request.predictedHomeScore() - request.predictedAwayScore()) ==
+            Integer.signum(request.actualHomeScore() - request.actualAwayScore());
+    }
+
+    private boolean isSameGoalDifference(PredictionScoreRequest request) {
+        int predictedDifference = request.predictedHomeScore() - request.predictedAwayScore();
+        int actualDifference = request.actualHomeScore() - request.actualAwayScore();
+        return predictedDifference == actualDifference &&
+            Integer.signum(predictedDifference) == Integer.signum(actualDifference);
+    }
+
+    private boolean isEarlyPrediction(PredictionScoreRequest request) {
+        return request.predictedAt() != null &&
+            request.kickoffTime() != null &&
+            request.predictedAt().isBefore(request.kickoffTime().minusHours(24));
     }
 }
