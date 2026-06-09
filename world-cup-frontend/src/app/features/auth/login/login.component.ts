@@ -20,12 +20,27 @@ export class LoginComponent {
     password: ['mundial2026', Validators.required]
   });
 
+  errorMessage: string | null = null;
+  isLoading = false;
+
   submit(): void {
     if (this.form.invalid) return;
+
+    this.errorMessage = null;
+    this.isLoading = true;
+
     const { email, password } = this.form.getRawValue();
-    this.authService.login(email!, password!).subscribe(() => {
-      this.notificationService.success('Sesion iniciada');
-      this.router.navigate(['/dashboard']);
+    this.authService.login(email!, password!).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.notificationService.success('Sesión iniciada');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error: Error) => {
+        this.isLoading = false;
+        this.errorMessage = error.message || 'No se pudo iniciar sesión. Intenta de nuevo.';
+        this.notificationService.error(this.errorMessage);
+      }
     });
   }
 }
