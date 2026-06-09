@@ -1,6 +1,7 @@
 <div class="verify">
   <mat-icon>mark_email_read</mat-icon>
   <h1>Verifica tu correo</h1>
+  <p>Si ya verificaste tu cuenta, puedes continuar directo al dashboard.</p>
   <form [formGroup]="form" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
@@ -10,6 +11,9 @@
       <mat-label>Codigo</mat-label>
       <input matInput formControlName="token" />
     </mat-form-field>
-    <button mat-flat-button color="primary" type="submit">Verificar</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || isLoading">
+      {{ isLoading ? 'Verificando...' : 'Verificar' }}
+    </button>
+    <button mat-stroked-button type="button" (click)="goToDashboardOrLogin()">Ir al dashboard</button>
   </form>
 </div>

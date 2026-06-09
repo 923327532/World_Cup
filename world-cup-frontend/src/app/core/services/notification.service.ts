@@ -9,6 +9,10 @@ export class NotificationService {
     this.snackBar.open(message, 'Cerrar', { duration: 3000, panelClass: 'snackbar-success' });
   }
 
+  info(message: string): void {
+    this.snackBar.open(message, 'Cerrar', { duration: 3000, panelClass: 'snackbar-info' });
+  }
+
   error(message: string): void {
     this.snackBar.open(message, 'Cerrar', { duration: 4500, panelClass: 'snackbar-error' });
   }

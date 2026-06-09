@@ -63,12 +63,20 @@ export class RegisterComponent {
     ).subscribe({
       next: () => {
         this.isLoading = false;
-        this.notificationService.success('Registro exitoso. Revisa tu correo para verificar la cuenta.');
-        this.router.navigate(['/auth/verify-email']);
+        this.notificationService.success('Registro exitoso. Ahora inicia sesión para entrar al dashboard.');
+        this.router.navigate(['/auth/login'], { queryParams: { email, registered: '1' } });
       },
       error: (error: Error) => {
         this.isLoading = false;
-        this.errorMessage = error.message || 'No se pudo completar el registro. Intenta de nuevo.';
+        const rawMessage = error.message || 'No se pudo completar el registro. Intenta de nuevo.';
+        this.errorMessage = rawMessage;
+        if (/registrado|already/i.test(rawMessage)) {
+          this.errorMessage = 'Ese correo ya esta registrado. Inicia sesion para entrar al dashboard.';
+          this.router.navigate(['/auth/login'], { queryParams: { email, exists: '1' } });
+        } else if (/acceso denegado|forbidden/i.test(rawMessage)) {
+          this.errorMessage = 'Ese correo posiblemente ya existe o aun no esta verificado. Inicia sesion o verifica tu correo.';
+          this.router.navigate(['/auth/login'], { queryParams: { email, exists: '1' } });
+        }
         this.notificationService.error(this.errorMessage);
       }
     });

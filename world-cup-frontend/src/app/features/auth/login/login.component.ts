@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -15,6 +16,7 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   readonly form = this.fb.group({
     email: ['capitan@tecsup.edu.pe', [Validators.required, Validators.email]],
     password: ['mundial2026', Validators.required]
@@ -23,6 +25,23 @@ export class LoginComponent {
   errorMessage: string | null = null;
   isLoading = false;
   hidePassword = true;
+
+  constructor() {
+    const queryMap = this.route.snapshot.queryParamMap;
+    const email = queryMap.get('email');
+
+    if (email) {
+      this.form.patchValue({ email });
+    }
+
+    if (queryMap.get('registered') === '1') {
+      this.notificationService.info('Cuenta creada. Inicia sesion para continuar al dashboard.');
+    }
+
+    if (queryMap.get('exists') === '1') {
+      this.notificationService.info('Ese correo ya estaba registrado. Inicia sesion con tu cuenta.');
+    }
+  }
 
   submit(): void {
     if (this.form.invalid) return;
@@ -35,7 +54,7 @@ export class LoginComponent {
       next: () => {
         this.isLoading = false;
         this.notificationService.success('Sesión iniciada');
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/app/dashboard']);
       },
       error: (error: Error) => {
         this.isLoading = false;
