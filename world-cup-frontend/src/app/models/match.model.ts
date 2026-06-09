@@ -16,6 +16,14 @@ export interface MatchEvent {
 
 export interface Match {
   id: number;
+  stadiumId?: number;
+  stadiumName?: string;
+  stadiumCity?: string;
+  stadiumCountry?: string;
+  stadiumCapacity?: number;
+  venue?: string;
+  stage?: string;
+  groupName?: string;
   homeTeam: string;
   awayTeam: string;
   homeTeamId?: number;

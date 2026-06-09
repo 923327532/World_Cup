@@ -28,4 +28,9 @@ public class MatchController {
     public ResponseEntity<MatchDTO> getMatchById(@PathVariable Long id) {
         return ResponseEntity.ok(matchService.getMatchById(id));
     }
+
+    @GetMapping("/live")
+    public ResponseEntity<List<MatchDTO>> getLiveMatches() {
+        return ResponseEntity.ok(matchService.getLiveMatches());
+    }
 }

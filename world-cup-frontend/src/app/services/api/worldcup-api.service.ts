@@ -4,7 +4,7 @@ import { Observable, catchError, of, tap } from 'rxjs';
 import { API_ENDPOINTS, CACHE_TTL } from '../../core/constants/api.constants';
 import { CacheService } from '../../core/services/cache.service';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
-import { MatchDTO, PlayerDTO, TeamDTO, TournamentDTO } from '../../models/worldcup.model';
+import { MatchDTO, PlayerDTO, StadiumDTO, TeamDTO, TournamentDTO } from '../../models/worldcup.model';
 
 @Injectable({ providedIn: 'root' })
 export class WorldcupApiService {
@@ -60,6 +60,25 @@ export class WorldcupApiService {
       .pipe(catchError(() => of([])));
   }
 
+  getStadiums(): Observable<StadiumDTO[]> {
+    return this.http
+      .get<StadiumDTO[]>(`${API_ENDPOINTS.worldcup}/stadiums`, { context: this.silentContext() })
+      .pipe(catchError(() => of([])));
+  }
+
+  getStadiumById(id: number): Observable<StadiumDTO> {
+    return this.http
+      .get<StadiumDTO>(`${API_ENDPOINTS.worldcup}/stadiums/${id}`, { context: this.silentContext() })
+      .pipe(
+        catchError(() =>
+          of({
+            id,
+            name: 'Unknown Stadium',
+          }),
+        ),
+      );
+  }
+
   getTeamById(id: number): Observable<TeamDTO> {
     return this.http
       .get<TeamDTO>(`${API_ENDPOINTS.teams}/${id}`, { context: this.silentContext() })
@@ -99,6 +118,8 @@ export class WorldcupApiService {
         catchError(() =>
           of({
             id,
+            stadiumId: 0,
+            stadiumName: 'Unknown Stadium',
             homeTeamId: 0,
             awayTeamId: 0,
             homeTeam: 'Unknown',

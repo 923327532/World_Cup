@@ -96,6 +96,24 @@ h1 em {
   grid-template-columns: 1.5fr 1fr 1fr auto;
 }
 
+.selected-match {
+  border: 1px solid rgba(16, 19, 27, 0.12);
+  border-radius: 14px;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.8rem 0.95rem;
+}
+
+.selected-match strong {
+  color: var(--ink);
+  font: 800 0.95rem/1.1 'Barlow Condensed', sans-serif;
+}
+
+.selected-match span,
+.selected-match small {
+  color: rgba(16, 19, 27, 0.72);
+}
+
 .bet-save {
   height: 56px;
   border: 1px solid rgba(16, 19, 27, 0.1);

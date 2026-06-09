@@ -40,6 +40,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div class="selected-match" *ngIf="selectedMatch$ | async as selectedMatch">
+        <strong>{{ selectedMatch.homeTeam }} vs {{ selectedMatch.awayTeam }}</strong>
+        <span>{{ selectedMatch.kickoffTime | appDate }}</span>
+        <small>{{ selectedMatch.stadiumName || selectedMatch.venue || 'Estadio por definir' }}</small>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Tipo de prediccion</mat-label>
         <mat-select formControlName="predictionTypeId">

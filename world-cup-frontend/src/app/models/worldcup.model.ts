@@ -15,6 +15,16 @@ export interface TeamDTO {
   groupName?: string;
 }
 
+export interface StadiumDTO {
+  id: number;
+  apiStadiumId?: number;
+  name: string;
+  fifaName?: string;
+  city?: string;
+  country?: string;
+  capacity?: number;
+}
+
 export interface PlayerDTO {
   id: number;
   name: string;
@@ -26,6 +36,14 @@ export interface PlayerDTO {
 
 export interface MatchDTO {
   id: number;
+  stadiumId?: number;
+  stadiumName?: string;
+  stadiumCity?: string;
+  stadiumCountry?: string;
+  stadiumCapacity?: number;
+  venue?: string;
+  stage?: string;
+  groupName?: string;
   homeTeamId: number;
   awayTeamId: number;
   homeTeam: string;
@@ -34,7 +52,4 @@ export interface MatchDTO {
   awayScore?: number;
   kickoffTime: string;
   status: 'SCHEDULED' | 'LIVE' | 'FINISHED' | string;
-  venue?: string;
-  stage?: string;
-  groupName?: string;
 }

@@ -29,7 +29,7 @@ export class MatchApiService {
       this.http
         .get<
           Match[]
-        >(`${API_ENDPOINTS.worldcup}/matches/date/${new Date().toISOString().slice(0, 10)}`, { context: this.silentContext() })
+        >(`${API_ENDPOINTS.worldcup}/matches/live`, { context: this.silentContext() })
         .pipe(catchError(() => of(MOCK_MATCHES.filter((m) => m.status === 'LIVE')))),
     );
   }

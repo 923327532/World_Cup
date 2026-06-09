@@ -1,18 +1,24 @@
-<section class="page" *ngIf="match$ | async as match">
+<section class="page" *ngIf="viewModel$ | async as vm">
   <header>
     <a mat-icon-button routerLink="/matches" aria-label="Volver a partidos">
       <mat-icon>arrow_back</mat-icon>
     </a>
     <div>
-      <h1>{{ match.homeTeam }} vs {{ match.awayTeam }}</h1>
-      <p>{{ match.kickoffTime | appDate }}</p>
+      <h1>{{ vm.match.homeTeam }} vs {{ vm.match.awayTeam }}</h1>
+      <p>{{ vm.match.kickoffTime | appDate }}</p>
     </div>
   </header>
 
   <div class="grid">
     <div class="main">
-      <app-match-card [match]="match"></app-match-card>
+      <app-match-card [match]="vm.match"></app-match-card>
+      <section class="stadium-card" *ngIf="vm.stadium">
+        <p>Estadio</p>
+        <strong>{{ vm.stadium.name }}</strong>
+        <span>{{ vm.stadium.city }} · {{ vm.stadium.country }}</span>
+        <small>{{ vm.stadium.capacity | number }} personas</small>
+      </section>
     </div>
-    <app-live-chat [matchId]="match.id"></app-live-chat>
+    <app-live-chat [matchId]="vm.match.id"></app-live-chat>
   </div>
 </section>

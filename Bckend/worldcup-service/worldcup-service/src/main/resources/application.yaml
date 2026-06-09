@@ -39,6 +39,8 @@ eureka:
     prefer-ip-address: true
 
 api:
+  worldcup:
+    base-url: ${WORLD_CUP_API_URL:https://worldcup26.ir}
   football:
     api-key: ${API_SPORTS_KEY:8b08c7d941c2593665d49fd849b18f82}
     base-url: ${API_SPORTS_URL:https://v3.football.api-sports.io}

@@ -14,6 +14,11 @@ mat-card {
   justify-content: space-between;
 }
 
+.venue {
+  justify-content: flex-start;
+  margin-top: 0.4rem;
+}
+
 .score-line {
   align-items: center;
   display: grid;
@@ -31,8 +36,4 @@ mat-card {
   font-weight: 800;
   min-width: 84px;
   padding: 0.5rem 0.75rem;
-}
-
-.venue {
-  justify-content: flex-start;
 }

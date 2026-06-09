@@ -4,6 +4,14 @@
       <app-badge [label]="match.status" [tone]="match.status === 'LIVE' ? 'live' : match.status === 'FINISHED' ? 'success' : 'neutral'"></app-badge>
       <span>{{ match.kickoffTime | appDate }}</span>
     </div>
+    <div class="venue" *ngIf="match.venue || match.stadiumName">
+      <mat-icon>stadium</mat-icon>
+      <span>{{ match.stadiumName || match.venue }}</span>
+    </div>
+    <div class="venue" *ngIf="match.stage || match.groupName">
+      <mat-icon>calendar_month</mat-icon>
+      <span>{{ match.stage }}<ng-container *ngIf="match.groupName"> · Grupo {{ match.groupName }}</ng-container></span>
+    </div>
 
     <div class="score-line">
       <strong>{{ match.homeTeam }}</strong>

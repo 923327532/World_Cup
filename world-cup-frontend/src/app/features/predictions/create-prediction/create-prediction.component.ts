@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { map, startWith } from 'rxjs';
+import { startWith, switchMap } from 'rxjs';
 import { GroupApiService } from '../../../services/api/group-api.service';
 import { PredictionApiService } from '../../../services/api/prediction-api.service';
 import { MatchApiService } from '../../../services/api/match-api.service';
@@ -32,6 +32,10 @@ export class CreatePredictionComponent {
     predictionTypeId: [1, Validators.required],
     predictionValue: ['', Validators.required],
   });
+  readonly selectedMatch$ = this.form.controls.matchId.valueChanges.pipe(
+    startWith(this.form.controls.matchId.value ?? 1),
+    switchMap((matchId) => this.matchApiService.getMatch(Number(matchId || 1))),
+  );
 
   submit(): void {
     if (this.form.invalid) return;

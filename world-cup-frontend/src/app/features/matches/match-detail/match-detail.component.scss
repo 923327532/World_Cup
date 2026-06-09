@@ -31,6 +31,23 @@ em {
   gap: 1rem;
 }
 
+.stadium-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+}
+
+.stadium-card p {
+  color: #64748b;
+}
+
+.stadium-card span,
+.stadium-card small {
+  color: #475569;
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;

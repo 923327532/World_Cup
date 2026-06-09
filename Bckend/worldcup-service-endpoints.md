@@ -58,3 +58,22 @@ Obtener partidos por fecha
 Obtener partido por ID
 
 **Response 200:** `MatchDTO`
+
+### GET /matches/live
+Obtener partidos en vivo
+
+**Response 200:** `List<MatchDTO>`
+
+---
+
+## StadiumController
+
+### GET /stadiums
+Obtener todos los estadios
+
+**Response 200:** `List<StadiumDTO>`
+
+### GET /stadiums/{id}
+Obtener estadio por ID
+
+**Response 200:** `StadiumDTO`
