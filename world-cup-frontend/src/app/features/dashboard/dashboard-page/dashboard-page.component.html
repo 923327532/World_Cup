@@ -12,9 +12,171 @@
 
   <div class="stats">
     <mat-card><strong>{{ (score$ | async)?.totalPoints || 0 }}</strong><span>Puntos</span></mat-card>
-    <mat-card><strong>{{ (tournament$ | async)?.year || 2026 }}</strong><span>Edicion</span></mat-card>
+    <mat-card><strong>{{ (tournament$ | async)?.year || 2026 }}</strong><span>Edición</span></mat-card>
     <mat-card><strong>104</strong><span>Partidos</span></mat-card>
   </div>
+
+  <section class="user-hub" aria-label="Centro de accesos rápidos del usuario">
+    <div class="hub-header">
+      <div>
+        <p>Centro del usuario</p>
+        <h2>Accesos rápidos al Mundial</h2>
+      </div>
+      <span>
+        Cada apartado mapea a los endpoints de backend que hacen funcionar la app: apuestas, partidos, rankings, social, gamificación, notificaciones y datos de usuario.
+      </span>
+    </div>
+
+    <ng-container *ngIf="!(isAdmin$ | async); else adminEndpointHub">
+      <div class="hub-grid">
+        <article class="hub-card hub-card--lime">
+          <span>01</span>
+          <h3>Predicciones</h3>
+          <ul>
+            <li>/api/predictions</li>
+            <li>/api/predictions/user/&#123;userId&#125;</li>
+            <li>/api/predictions/match/&#123;matchId&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/predictions">Ver pronósticos</a>
+        </article>
+
+        <article class="hub-card hub-card--cyan">
+          <span>02</span>
+          <h3>Partidos</h3>
+          <ul>
+            <li>/api/worldcup/matches/date/&#123;date&#125;</li>
+            <li>/api/worldcup/matches/&#123;id&#125;</li>
+            <li>/api/matches</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/matches">Ver partidos</a>
+        </article>
+
+        <article class="hub-card hub-card--coral">
+          <span>03</span>
+          <h3>Ranking</h3>
+          <ul>
+            <li>/api/leaderboard/global</li>
+            <li>/api/leaderboard/campus/&#123;campusId&#125;</li>
+            <li>/api/leaderboard/career/&#123;careerId&#125;</li>
+            <li>/api/leaderboard/department/&#123;departmentId&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/rankings">Ver clasificaciones</a>
+        </article>
+
+        <article class="hub-card hub-card--ink">
+          <span>04</span>
+          <h3>Social</h3>
+          <ul>
+            <li>/api/social/comments/match/&#123;matchId&#125;</li>
+            <li>/api/social/reactions</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/social">Ir a la comunidad</a>
+        </article>
+
+        <article class="hub-card hub-card--paper">
+          <span>05</span>
+          <h3>Autenticación</h3>
+          <ul>
+            <li>/api/auth/login</li>
+            <li>/api/auth/register</li>
+            <li>/api/auth/verify-email</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/auth/login">Ingresar</a>
+        </article>
+
+        <article class="hub-card hub-card--cyan-light">
+          <span>06</span>
+          <h3>Gamificación</h3>
+          <ul>
+            <li>/api/gamification/badges</li>
+            <li>/api/gamification/rewards</li>
+            <li>/api/scoring/user/&#123;userId&#125;</li>
+            <li>/api/scoring/user/&#123;userId&#125;/history</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/app">Ver logros</a>
+        </article>
+
+        <article class="hub-card hub-card--coral-light">
+          <span>07</span>
+          <h3>Notificaciones</h3>
+          <ul>
+            <li>/api/notifications/user/&#123;userId&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/app">Notificaciones</a>
+        </article>
+
+        <article class="hub-card hub-card--soft">
+          <span>08</span>
+          <h3>Organización</h3>
+          <ul>
+            <li>/api/organization/campuses</li>
+            <li>/api/organization/departments</li>
+            <li>/api/organization/careers</li>
+            <li>/api/organization/avatars</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/app">Mi perfil</a>
+        </article>
+
+        <article class="hub-card hub-card--ink-light">
+          <span>09</span>
+          <h3>Selecciones</h3>
+          <ul>
+            <li>/api/teams</li>
+            <li>/api/players/team/&#123;teamId&#125;</li>
+            <li>/api/players/&#123;id&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/matches">Ver selecciones</a>
+        </article>
+
+        <article class="hub-card hub-card--lime-light">
+          <span>10</span>
+          <h3>Grupos</h3>
+          <ul>
+            <li>/api/groups</li>
+            <li>/api/groups/&#123;id&#125;</li>
+            <li>/api/groups/join/&#123;inviteCode&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/app">Ver grupos</a>
+        </article>
+      </div>
+    </ng-container>
+
+    <ng-template #adminEndpointHub>
+      <div class="admin-note">
+        <div class="admin-note__icon"><mat-icon>admin_panel_settings</mat-icon></div>
+        <div class="admin-note__text">
+          <strong>Panel exclusivo para Administradores</strong>
+          <p>Como administrador, tu panel y tus endpoints son distintos del usuario estándar. Gestiona partidos, resultados y auditoría desde el módulo de Administración.</p>
+        </div>
+        <a mat-flat-button color="primary" routerLink="/admin">Ir al panel Admin</a>
+      </div>
+
+      <div class="hub-grid hub-grid--admin">
+        <article class="hub-card hub-card--admin">
+          <span>01</span>
+          <h3>Gestión de Partidos</h3>
+          <ul>
+            <li>/api/admin/matches</li>
+            <li>/api/admin/matches/&#123;id&#125;</li>
+            <li>/api/admin/matches/status/&#123;status&#125;</li>
+            <li>/api/admin/matches/&#123;id&#125;/result</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/admin/matches">Administrar partidos</a>
+        </article>
+
+        <article class="hub-card hub-card--paper">
+          <span>02</span>
+          <h3>Auditoría</h3>
+          <ul>
+            <li>/api/admin/audit</li>
+            <li>/api/admin/audit/admin/&#123;adminId&#125;</li>
+            <li>/api/admin/audit/entity?entityType=&#123;type&#125;&entityId=&#123;id&#125;</li>
+          </ul>
+          <a mat-flat-button color="primary" routerLink="/admin/audit">Ver auditoría</a>
+        </article>
+      </div>
+    </ng-template>
+  </section>
 
   <div class="grid">
     <app-active-matches></app-active-matches>

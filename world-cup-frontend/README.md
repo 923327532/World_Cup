@@ -591,16 +591,68 @@ The frontend communicates with the backend through typed API services. All endpo
 | ------------------------ | -------------------- | ---------------------------------------- |
 | `AuthApiService`         | `/api/auth`          | Login, register, email verification      |
 | `OrganizationApiService` | `/api/organization`  | Campuses, departments, careers, profiles |
-| `WorldcupApiService`     | `/api/worldcup`      | Tournament data                          |
+| `WorldcupApiService`     | `/api/worldcup`      | Tournament and match discovery           |
 | `MatchApiService`        | `/api/matches`       | Match CRUD and status                    |
 | `PredictionApiService`   | `/api/predictions`   | Create and manage predictions            |
 | `RankingApiService`      | `/api/leaderboard`   | Leaderboard and rankings                 |
-| `SocialApiService`       | `/api/social`        | Chat and social features                 |
+| `SocialApiService`       | `/api/social`        | Chat and social reactions                |
 | `GamificationApiService` | `/api/gamification`  | Badges and rewards                       |
 | `ScoringApiService`      | `/api/scoring`       | Points and score history                 |
-| `AdminApiService`        | `/api/admin`         | Administrative operations                |
-| `GroupApiService`        | `/api/groups`        | Match groups                             |
+| `AdminApiService`        | `/api/admin`         | Administrative console                   |
+| `GroupApiService`        | `/api/groups`        | Match groups and invite management       |
 | `NotificationApiService` | `/api/notifications` | User notifications                       |
+
+#### User-facing endpoint groups
+
+These sections list the user endpoints that power the World Cup experience for players, predictions, rankings, social features, gamification and notifications.
+
+| Endpoint | Service | Description |
+| ------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------- |
+| `/api/auth/login` | `AuthApiService` | Inicia sesión y devuelve token JWT |
+| `/api/auth/register` | `AuthApiService` | Registra nuevo usuario |
+| `/api/auth/verify-email` | `AuthApiService` | Verifica la dirección de correo |
+| `/api/predictions` | `PredictionApiService` | Crea o actualiza predicciones |
+| `/api/predictions/user/{userId}` | `PredictionApiService` | Trae las predicciones del usuario |
+| `/api/predictions/match/{matchId}` | `PredictionApiService` | Consulta predicciones por partido |
+| `/api/prediction-types` | `PredictionApiService` | Lista los tipos de apuesta disponibles |
+| `/api/leaderboard/global` | `RankingApiService` | Ranking general de usuarios |
+| `/api/leaderboard/campus/{campusId}` | `RankingApiService` | Ranking por campus |
+| `/api/leaderboard/career/{careerId}` | `RankingApiService` | Ranking por carrera |
+| `/api/leaderboard/department/{departmentId}` | `RankingApiService` | Ranking por departamento |
+| `/api/social/comments/match/{matchId}` | `SocialApiService` | Mensajes de partido en tiempo real |
+| `/api/social/reactions` | `SocialApiService` | Crea reacciones sobre comentarios |
+| `/api/gamification/badges` | `GamificationApiService` | Lista de insignias |
+| `/api/gamification/rewards` | `GamificationApiService` | Recompensas disponibles |
+| `/api/notifications/user/{userId}` | `NotificationApiService` | Listado de notificaciones del usuario |
+| `/api/scoring/user/{userId}` | `ScoringApiService` | Puntos totales del usuario |
+| `/api/scoring/user/{userId}/history` | `ScoringApiService` | Historial de puntajes |
+| `/api/groups` | `GroupApiService` | Lista de grupos de juego |
+| `/api/groups/{id}` | `GroupApiService` | Detalle de grupo |
+| `/api/groups/join/{inviteCode}` | `GroupApiService` | Unirse a un grupo por código |
+| `/api/organization/campuses` | `OrganizationApiService` | Lista de campus |
+| `/api/organization/departments` | `OrganizationApiService` | Lista de departamentos |
+| `/api/organization/careers` | `OrganizationApiService` | Lista de carreras |
+| `/api/organization/avatars` | `OrganizationApiService` | Lista de avatares disponibles |
+| `/api/worldcup/matches/date/{date}` | `WorldcupApiService` | Partidos del día |
+| `/api/worldcup/matches/{id}` | `WorldcupApiService` | Detalle de partido |
+| `/api/teams` | `WorldcupApiService` | Listado de selecciones |
+| `/api/players/team/{teamId}` | `WorldcupApiService` | Jugadores por selección |
+| `/api/players/{id}` | `WorldcupApiService` | Detalle de jugador |
+
+#### Admin-only endpoint groups
+
+Estos endpoints son exclusivos para el perfil admin y no deben mostrarse al usuario normal.
+
+| Endpoint | Service | Description |
+| ------------------------------------------------------------- | ------------------------ | --------------------------------------------------------------------- |
+| `/api/admin/matches` | `AdminApiService` | Listado de partidos para administración |
+| `/api/admin/matches/{id}` | `AdminApiService` | Detalle de partido admin |
+| `/api/admin/matches/status/{status}` | `AdminApiService` | Filtra partidos por estado |
+| `/api/admin/matches/{id}/result` | `AdminApiService` | Actualiza resultado de partido |
+| `/api/admin/audit` | `AdminApiService` | Historial de auditoría global |
+| `/api/admin/audit/admin/{adminId}` | `AdminApiService` | Historial de auditoría por admin |
+| `/api/admin/audit/entity?entityType={type}&entityId={id}` | `AdminApiService` | Auditoría por entidad |
+| `/api/tournaments` | `WorldcupApiService` | Lista de torneos y ediciones |
 
 ### HTTP Interceptors
 
