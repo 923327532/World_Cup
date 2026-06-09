@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { interval, map, startWith } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { interval, map, startWith, switchMap } from 'rxjs';
+import { RankingApiService } from '../../../../services/api/ranking-api.service';
 
 @Component({
   selector: 'app-live-users',
@@ -8,8 +9,11 @@ import { interval, map, startWith } from 'rxjs';
   standalone: false
 })
 export class LiveUsersComponent {
-  readonly liveUsers$ = interval(5000).pipe(
+  private readonly rankingApiService = inject(RankingApiService);
+
+  readonly liveUsers$ = interval(30000).pipe(
     startWith(0),
-    map((tick) => 124 + (tick % 12))
+    switchMap(() => this.rankingApiService.getGlobalRanking(200)),
+    map((ranking) => ranking.length)
   );
 }

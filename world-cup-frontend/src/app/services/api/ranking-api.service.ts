@@ -5,7 +5,6 @@ import { API_ENDPOINTS, CACHE_TTL } from '../../core/constants/api.constants';
 import { CacheService } from '../../core/services/cache.service';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
 import { LeaderboardEntryDTO, RankingEntry } from '../../models/ranking.model';
-import { MOCK_RANKINGS } from './mock-data';
 import { OrganizationApiService } from './organization-api.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,11 +20,7 @@ export class RankingApiService {
       .get<
         LeaderboardEntryDTO[]
       >(`${API_ENDPOINTS.leaderboard}/global?limit=${limit}`, { context: this.silentContext() })
-      .pipe(
-        catchError(() =>
-          of(MOCK_RANKINGS.map((r) => ({ ...r, email: '', firstName: '', lastName: '' }))),
-        ),
-      );
+      .pipe(catchError(() => of([])));
   }
 
   getCampusRanking(campusId: number, limit = 50): Observable<LeaderboardEntryDTO[]> {
@@ -33,11 +28,7 @@ export class RankingApiService {
       .get<
         LeaderboardEntryDTO[]
       >(`${API_ENDPOINTS.leaderboard}/campus/${campusId}?limit=${limit}`, { context: this.silentContext() })
-      .pipe(
-        catchError(() =>
-          of(MOCK_RANKINGS.map((r) => ({ ...r, email: '', firstName: '', lastName: '' }))),
-        ),
-      );
+      .pipe(catchError(() => of([])));
   }
 
   getCareerRanking(careerId: number, limit = 50): Observable<LeaderboardEntryDTO[]> {
@@ -45,11 +36,7 @@ export class RankingApiService {
       .get<
         LeaderboardEntryDTO[]
       >(`${API_ENDPOINTS.leaderboard}/career/${careerId}?limit=${limit}`, { context: this.silentContext() })
-      .pipe(
-        catchError(() =>
-          of(MOCK_RANKINGS.map((r) => ({ ...r, email: '', firstName: '', lastName: '' }))),
-        ),
-      );
+      .pipe(catchError(() => of([])));
   }
 
   getDepartmentRanking(departmentId: number, limit = 50): Observable<LeaderboardEntryDTO[]> {
@@ -57,11 +44,7 @@ export class RankingApiService {
       .get<
         LeaderboardEntryDTO[]
       >(`${API_ENDPOINTS.leaderboard}/department/${departmentId}?limit=${limit}`, { context: this.silentContext() })
-      .pipe(
-        catchError(() =>
-          of(MOCK_RANKINGS.map((r) => ({ ...r, email: '', firstName: '', lastName: '' }))),
-        ),
-      );
+      .pipe(catchError(() => of([])));
   }
 
   private silentContext(): HttpContext {
