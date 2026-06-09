@@ -1,0 +1,324 @@
+<div class="loader" [class.loader--done]="!loading" aria-hidden="true">
+  <div class="loader__mark">WE ARE <strong>26</strong></div>
+  <div class="loader__track"><span [style.width.%]="loaderProgress"></span></div>
+  <span class="loader__value">{{ loaderProgress | number: '2.0-0' }}%</span>
+</div>
+
+<div class="scroll-progress" [style.width.%]="scrollProgress"></div>
+
+<header class="site-header">
+  <a class="brand" href="/" aria-label="Tecsup World Cup Betting Center, inicio">
+    <span class="brand__ball">26</span>
+    <span>TECSUP<br />WORLD CUP</span>
+  </a>
+
+  <div class="site-header__actions">
+    <a class="header-login" routerLink="/auth/login">Ingresar</a>
+    <button
+      class="menu-button"
+      type="button"
+      aria-label="Abrir menú"
+      [attr.aria-expanded]="menuOpen"
+      (click)="toggleMenu()"
+    >
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<aside class="menu-panel" [class.menu-panel--open]="menuOpen" aria-label="Navegación principal">
+  <nav>
+    <button type="button" (click)="scrollTo('betting-center')"><span>01</span>Centro de apuestas</button>
+    <button type="button" (click)="scrollTo('experience')"><span>02</span>La experiencia</button>
+    <button type="button" (click)="scrollTo('world-stage')"><span>03</span>El mundial</button>
+    <button type="button" (click)="scrollTo('matches')"><span>04</span>Partidos</button>
+    <a routerLink="/auth/login" (click)="toggleMenu(false)"><span>05</span>Ingresar</a>
+  </nav>
+  <p>Analiza. Elige tu cuota. Juega.</p>
+</aside>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <video
+      #heroVideo
+      class="hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="/images/landing/stadium-night.jpg"
+      [style.transform]="'translate3d(0,' + heroOffset + 'px,0) scale(1.09)'"
+      (play)="videoPlaying = true"
+      (pause)="videoPlaying = false"
+    >
+      <source src="/videos/world-cup-intro.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__shade"></div>
+    <div class="hero__pitch-lines" aria-hidden="true"></div>
+    <div class="hero__number" aria-hidden="true">26</div>
+
+    <div class="hero__content">
+      <p class="eyebrow hero__eyebrow"><span></span>El Mundial se juega aquí</p>
+      <h1 id="hero-title">
+        <span>WORLD CUP</span>
+        <span class="hero__title-accent">BETTING CENTER</span>
+      </h1>
+      <div class="hero__bottom">
+        <p>Explora mercados, compara cuotas y arma tu jugada para cada partido del Mundial 2026.</p>
+        <div class="hero__buttons">
+          <a class="button button--lime" routerLink="/auth/register">
+            Empezar a apostar <span class="material-icons">north_east</span>
+          </a>
+          <button class="button button--ghost" type="button" (click)="scrollTo('betting-center')">
+            Ver cuotas <span class="material-icons">south</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__edition">EDICIÓN<br /><strong>01</strong></div>
+    <button class="hero__video-control" type="button" (click)="toggleVideo()">
+      <span class="material-icons">{{ videoPlaying ? 'pause' : 'play_arrow' }}</span>
+      {{ videoPlaying ? 'Pausar video' : 'Reproducir video' }}
+    </button>
+    <div class="hero__scroll"><span></span>DESLIZA</div>
+  </section>
+
+  <section class="marquee" aria-label="Datos del torneo">
+    <div class="marquee__track">
+      <span>CUOTAS EN VIVO</span><i></i><span>1 · X · 2</span><i></i><span>MERCADOS DEL MUNDIAL</span><i></i>
+      <span>CUOTAS EN VIVO</span><i></i><span>1 · X · 2</span><i></i><span>MERCADOS DEL MUNDIAL</span><i></i>
+    </div>
+  </section>
+
+  <section class="betting-center" id="betting-center">
+    <div class="betting-center__heading">
+      <div>
+        <div class="section-index" data-reveal>01 / CENTRO DE APUESTAS</div>
+        <h2 data-reveal>ELIGE TU<br /><em>PRÓXIMA JUGADA.</em></h2>
+      </div>
+      <div class="market-status" data-reveal>
+        <span class="market-status__live"><i></i> MERCADOS ABIERTOS</span>
+        <b>12</b>
+        <small>EVENTOS DISPONIBLES</small>
+      </div>
+    </div>
+
+    <div class="odds-board" data-reveal>
+      <div class="odds-board__nav">
+        <span>DESTACADOS</span>
+        <span>PRÓXIMOS</span>
+        <span>EN VIVO</span>
+        <a routerLink="/matches">VER TODOS <span class="material-icons">arrow_forward</span></a>
+      </div>
+
+      <article class="odds-event">
+        <div class="odds-event__meta">
+          <span>11 JUN · 14:00</span>
+          <small>FASE DE GRUPOS</small>
+        </div>
+        <div class="odds-event__teams">
+          <strong>MÉXICO</strong><span>VS</span><strong>POR DEFINIR</strong>
+        </div>
+        <div class="odds-market" aria-label="Cuotas del partido inaugural">
+          <a routerLink="/predictions"><small>1 · LOCAL</small><b>1.85</b></a>
+          <a routerLink="/predictions"><small>X · EMPATE</small><b>3.20</b></a>
+          <a routerLink="/predictions"><small>2 · VISITA</small><b>4.10</b></a>
+        </div>
+        <a class="odds-event__more" routerLink="/predictions" aria-label="Ver más mercados">
+          +24
+        </a>
+      </article>
+
+      <article class="odds-event">
+        <div class="odds-event__meta">
+          <span>12 JUN · 19:00</span>
+          <small>FASE DE GRUPOS</small>
+        </div>
+        <div class="odds-event__teams">
+          <strong>CANADÁ</strong><span>VS</span><strong>POR DEFINIR</strong>
+        </div>
+        <div class="odds-market" aria-label="Cuotas del segundo partido">
+          <a routerLink="/predictions"><small>1 · LOCAL</small><b>2.05</b></a>
+          <a routerLink="/predictions"><small>X · EMPATE</small><b>3.10</b></a>
+          <a routerLink="/predictions"><small>2 · VISITA</small><b>3.55</b></a>
+        </div>
+        <a class="odds-event__more" routerLink="/predictions" aria-label="Ver más mercados">
+          +18
+        </a>
+      </article>
+    </div>
+
+    <div class="bet-slip-preview" data-reveal>
+      <div>
+        <span class="material-icons">confirmation_number</span>
+        <p><b>BOLETA RÁPIDA</b><small>Combina tus selecciones y sigue tu jugada.</small></p>
+      </div>
+      <span>CUOTA TOTAL <b>5.92</b></span>
+      <a class="button button--lime" routerLink="/auth/register">Crear apuesta</a>
+    </div>
+  </section>
+
+  <section class="experience" id="experience">
+    <div class="section-index" data-reveal>02 / LA EXPERIENCIA</div>
+    <div class="experience__copy">
+      <h2 data-reveal>NO SOLO<br />MIRAS EL JUEGO.<br /><em>LO JUEGAS.</em></h2>
+      <p data-reveal>
+        Convierte tu lectura del partido en una selección. Sigue las cuotas y encuentra el mercado
+        que mejor encaja con tu estrategia.
+      </p>
+    </div>
+
+    <div class="experience__visual" data-reveal>
+      <video
+        #experienceVideo
+        class="experience__photo"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster="/images/landing/fans-night.jpg"
+        aria-label="Aficionados celebrando durante el Mundial"
+      >
+        <source src="/videos/world-cup-fans-vertical.mp4" type="video/mp4" />
+      </video>
+      <div class="experience__stamp">
+        <span>ANALIZA • ELIGE • JUEGA •</span>
+        <strong>26</strong>
+      </div>
+      <p>TU LECTURA.<br />TU JUGADA.</p>
+    </div>
+  </section>
+
+  <section class="world-stage" id="world-stage">
+    <div class="world-stage__intro">
+      <div class="section-index" data-reveal>03 / EL MUNDO LLEGA</div>
+      <h2 data-reveal>UN TROFEO.<br /><em>TRES PAÍSES.</em><br />TODO EL PLANETA.</h2>
+      <p data-reveal>
+        La edición más grande de la historia reúne 48 selecciones en Canadá, México y Estados
+        Unidos. Cada grupo, cada cruce y cada sorpresa abren una nueva oportunidad de juego.
+      </p>
+    </div>
+
+    <div class="host-strip" data-reveal aria-label="Países anfitriones">
+      <div class="host host--canada">
+        <span class="host__code">CAN</span>
+        <strong>CANADÁ</strong>
+        <small>2 SEDES</small>
+      </div>
+      <div class="host host--mexico">
+        <span class="host__code">MEX</span>
+        <strong>MÉXICO</strong>
+        <small>3 SEDES</small>
+      </div>
+      <div class="host host--usa">
+        <span class="host__code">USA</span>
+        <strong>ESTADOS UNIDOS</strong>
+        <small>11 SEDES</small>
+      </div>
+    </div>
+
+    <div class="tournament-map">
+      <div class="groups-board" data-reveal>
+        <div class="groups-board__header">
+          <span>48 SELECCIONES</span>
+          <span>12 GRUPOS</span>
+        </div>
+        <div class="group-grid" aria-label="Grupos del torneo">
+          <span *ngFor="let group of ['A','B','C','D','E','F','G','H','I','J','K','L']">
+            <b>GRUPO</b>{{ group }}
+          </span>
+        </div>
+      </div>
+
+      <div class="road-to-final" data-reveal>
+        <p>EL CAMINO A LA GLORIA</p>
+        <div class="rounds">
+          <span><i></i><b>FASE DE GRUPOS</b><small>48</small></span>
+          <span><i></i><b>DIECISEISAVOS</b><small>32</small></span>
+          <span><i></i><b>OCTAVOS</b><small>16</small></span>
+          <span><i></i><b>CUARTOS</b><small>8</small></span>
+          <span><i></i><b>SEMIFINAL</b><small>4</small></span>
+          <span class="rounds__final"><i></i><b>FINAL</b><small>2</small></span>
+        </div>
+        <div class="trophy-mark" aria-hidden="true">
+          <span class="material-icons">emoji_events</span>
+          <b>1</b>
+          <small>CAMPEÓN DEL MUNDO</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="countdown-section" id="countdown">
+    <div class="countdown-section__top" data-reveal>
+      <div class="section-index">04 / CUENTA REGRESIVA</div>
+      <p>Los mercados abrirán antes del primer silbatazo.</p>
+    </div>
+    <div class="countdown" data-reveal aria-label="Cuenta regresiva para el torneo">
+      <div><strong>{{ countdown.days }}</strong><span>DÍAS</span></div>
+      <div><strong>{{ countdown.hours }}</strong><span>HORAS</span></div>
+      <div><strong>{{ countdown.minutes }}</strong><span>MINUTOS</span></div>
+      <div><strong>{{ countdown.seconds }}</strong><span>SEGUNDOS</span></div>
+    </div>
+    <div class="countdown-section__line" aria-hidden="true">
+      <span>11 JUNIO</span><i></i><span>19 JULIO</span>
+    </div>
+  </section>
+
+  <section class="matches" id="matches">
+    <div class="matches__heading">
+      <div class="section-index" data-reveal>05 / PRÓXIMOS MERCADOS</div>
+      <h2 data-reveal>APUESTA AL<br /><span>PRÓXIMO PARTIDO</span></h2>
+    </div>
+
+    <div class="match-list" data-reveal>
+      <a routerLink="/matches" class="match-row">
+        <span class="match-row__date">11 JUN<br /><b>14:00</b></span>
+        <span class="match-row__teams"><b>MÉXICO</b><i>VS</i><b>POR DEFINIR</b></span>
+        <span class="match-row__stage">FASE DE GRUPOS</span>
+        <span class="material-icons">north_east</span>
+      </a>
+      <a routerLink="/matches" class="match-row">
+        <span class="match-row__date">12 JUN<br /><b>19:00</b></span>
+        <span class="match-row__teams"><b>CANADÁ</b><i>VS</i><b>POR DEFINIR</b></span>
+        <span class="match-row__stage">FASE DE GRUPOS</span>
+        <span class="material-icons">north_east</span>
+      </a>
+      <a routerLink="/matches" class="match-row">
+        <span class="match-row__date">13 JUN<br /><b>16:00</b></span>
+        <span class="match-row__teams"><b>ESTADOS UNIDOS</b><i>VS</i><b>POR DEFINIR</b></span>
+        <span class="match-row__stage">FASE DE GRUPOS</span>
+        <span class="material-icons">north_east</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="numbers" aria-label="Características">
+    <div data-reveal><strong>+20</strong><span>MERCADOS<br />POR PARTIDO</span></div>
+    <div data-reveal><strong>24/7</strong><span>CUOTAS<br />ACTUALIZADAS</span></div>
+    <div data-reveal><strong>1X2</strong><span>APUESTA SIMPLE<br />Y DIRECTA</span></div>
+  </section>
+
+  <section class="final-cta">
+    <div class="final-cta__image"></div>
+    <div class="final-cta__shade"></div>
+    <div class="final-cta__content" data-reveal>
+      <p class="eyebrow"><span></span>Tu próxima jugada empieza aquí</p>
+      <h2>¿LISTO PARA<br /><em>APOSTAR AL MUNDIAL?</em></h2>
+      <a class="button button--lime" routerLink="/auth/register">
+        Abrir mi cuenta <span class="material-icons">north_east</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="brand brand--footer" href="/">
+    <span class="brand__ball">26</span><span>TECSUP<br />WORLD CUP</span>
+  </a>
+  <p>WORLD CUP BETTING CENTER 2026 · 18+ · JUEGA CON RESPONSABILIDAD</p>
+  <a routerLink="/auth/login">INGRESAR <span class="material-icons">arrow_forward</span></a>
+</footer>

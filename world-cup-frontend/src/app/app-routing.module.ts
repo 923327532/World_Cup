@@ -6,6 +6,11 @@ import { PublicLayoutComponent } from './layout/public-layout/public-layout.comp
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () => import('./features/landing/landing.module').then((m) => m.LandingModule)
+  },
+  {
     path: 'auth',
     component: PublicLayoutComponent,
     loadChildren: () => import('./features/auth/auth.module').then((m) => m.AuthModule)
@@ -15,7 +20,6 @@ const routes: Routes = [
     component: DashboardLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
         path: 'dashboard',
         loadChildren: () => import('./features/dashboard/dashboard.module').then((m) => m.DashboardModule)

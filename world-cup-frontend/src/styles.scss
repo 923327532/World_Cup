@@ -27,6 +27,10 @@ body {
   color: #111827;
 }
 
+body.landing-menu-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
 }
