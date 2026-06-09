@@ -17,8 +17,64 @@
   <div class="stats">
     <mat-card><strong>{{ (score$ | async)?.totalPoints || 0 }}</strong><span>Puntos</span></mat-card>
     <mat-card><strong>{{ (tournament$ | async)?.year || 2026 }}</strong><span>Edición</span></mat-card>
-    <mat-card><strong>104</strong><span>Partidos</span></mat-card>
+    <mat-card><strong>{{ (worldCupSummary$ | async)?.todayMatches || 0 }}</strong><span>Partidos hoy</span></mat-card>
   </div>
+
+  <section class="worldcup-panel" *ngIf="worldCupSummary$ | async as summary">
+    <div class="worldcup-panel__header">
+      <div>
+        <p>World Cup Service</p>
+        <h2>Datos en vivo desde backend</h2>
+      </div>
+      <span>Endpoints consumidos: torneos, equipos, jugadores, partidos y estadios.</span>
+    </div>
+
+    <div class="worldcup-metrics">
+      <mat-card><strong>{{ summary.tournaments }}</strong><span>Torneos</span></mat-card>
+      <mat-card><strong>{{ summary.teams }}</strong><span>Equipos</span></mat-card>
+      <mat-card><strong>{{ summary.stadiums }}</strong><span>Estadios</span></mat-card>
+      <mat-card><strong>{{ summary.liveMatches }}</strong><span>Partidos en vivo</span></mat-card>
+    </div>
+
+    <mat-card class="featured-match" *ngIf="featuredMatchDetail$ | async as match; else noLiveData">
+      <mat-card-title>{{ match.homeTeam }} vs {{ match.awayTeam }}</mat-card-title>
+      <mat-card-subtitle>{{ match.kickoffTime | appDate }} · {{ match.status }}</mat-card-subtitle>
+
+      <div class="featured-match__line">
+        <span>
+          {{ (featuredHomeTeam$ | async)?.name || match.homeTeam }}
+          ({{ (featuredHomeTeam$ | async)?.code || 'N/A' }})
+        </span>
+        <strong>{{ match.homeScore ?? 0 }} - {{ match.awayScore ?? 0 }}</strong>
+        <span>
+          {{ (featuredAwayTeam$ | async)?.name || match.awayTeam }}
+          ({{ (featuredAwayTeam$ | async)?.code || 'N/A' }})
+        </span>
+      </div>
+
+      <div class="featured-match__meta" *ngIf="featuredStadium$ | async as stadium">
+        <span>Estadio: {{ stadium.name }}</span>
+        <span *ngIf="stadium.city">Ciudad: {{ stadium.city }}</span>
+      </div>
+
+      <div class="featured-match__players" *ngIf="featuredPlayers$ | async as players">
+        <p>Jugadores del equipo local (top 5)</p>
+        <ul>
+          <li *ngFor="let player of players.slice(0, 5)">
+            {{ player.name }} · {{ player.position }} #{{ player.number }}
+          </li>
+        </ul>
+      </div>
+    </mat-card>
+
+    <ng-template #noLiveData>
+      <mat-card class="featured-match featured-match--empty">
+        <mat-card-content>
+          No hay partido activo ahora. Se sigue consumiendo `/matches/live` y se actualizara automaticamente cuando exista uno.
+        </mat-card-content>
+      </mat-card>
+    </ng-template>
+  </section>
 
   <section class="user-hub" aria-label="Centro de accesos rápidos del usuario">
     <div class="hub-header">

@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
-import { LiveChatComponent } from './live-chat/live-chat.component';
-import { ReactionsComponent } from './reactions/reactions.component';
 import { SocialRoutingModule } from './social-routing.module';
+import { SocialComponentsModule } from './social-components.module';
 
 @NgModule({
-  declarations: [LiveChatComponent, ReactionsComponent],
-  imports: [SharedModule, ReactiveFormsModule, SocialRoutingModule],
-  exports: [LiveChatComponent, ReactionsComponent]
+  imports: [SocialComponentsModule, SocialRoutingModule],
+  exports: [SocialComponentsModule],
 })
 export class SocialModule {}

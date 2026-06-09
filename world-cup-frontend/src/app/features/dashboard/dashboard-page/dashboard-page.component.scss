@@ -51,6 +51,109 @@ h1 {
   color: #64748b;
 }
 
+.worldcup-panel {
+  background: #ffffff;
+  border: 1px solid var(--landing-soft);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(16, 19, 27, 0.06);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+}
+
+.worldcup-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.worldcup-panel__header p {
+  margin: 0;
+}
+
+.worldcup-panel__header h2 {
+  margin: 0.35rem 0 0;
+  font-size: 1.5rem;
+  color: var(--landing-ink);
+}
+
+.worldcup-panel__header span {
+  color: #475569;
+  font-size: 0.92rem;
+  max-width: 430px;
+}
+
+.worldcup-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.worldcup-metrics mat-card {
+  border-radius: 16px;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #ffffff);
+}
+
+.worldcup-metrics strong {
+  display: block;
+  font-size: 1.65rem;
+  color: var(--landing-ink);
+}
+
+.worldcup-metrics span {
+  color: #64748b;
+}
+
+.featured-match {
+  border-radius: 18px;
+  background: rgba(16, 19, 27, 0.02);
+}
+
+.featured-match__line {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.featured-match__line strong {
+  font-size: 1.2rem;
+}
+
+.featured-match__line span:last-child {
+  text-align: right;
+}
+
+.featured-match__meta {
+  display: flex;
+  gap: 1rem;
+  color: #475569;
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+}
+
+.featured-match__players p {
+  margin: 0 0 0.5rem;
+  color: #0f172a;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.featured-match__players ul {
+  margin: 0;
+  padding-left: 1rem;
+  color: #475569;
+}
+
+.featured-match--empty {
+  background: rgba(255, 243, 199, 0.35);
+}
+
 .user-hub {
   background: #ffffff;
   border: 1px solid var(--landing-soft);
@@ -250,6 +353,15 @@ app-live-users {
   header,
   .grid {
     display: grid;
+  }
+
+  .worldcup-panel__header,
+  .featured-match__line {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-match__line span:last-child {
+    text-align: left;
   }
 
   .stats {

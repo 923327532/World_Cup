@@ -117,6 +117,14 @@ export class WorldcupApiService {
     );
   }
 
+  getLiveMatches(): Observable<MatchDTO[]> {
+    return this.cached('worldcup:matches:live', CACHE_TTL.liveMatches, () =>
+      this.http
+        .get<MatchDTO[]>(`${API_ENDPOINTS.worldcup}/matches/live`, { context: this.silentContext() })
+        .pipe(catchError(() => of([]))),
+    );
+  }
+
   getMatchById(id: number): Observable<MatchDTO> {
     return this.http
       .get<MatchDTO>(`${API_ENDPOINTS.worldcup}/matches/${id}`, { context: this.silentContext() })
