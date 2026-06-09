@@ -258,6 +258,7 @@ services:
       RABBITMQ_PORT: 5672
       RABBITMQ_USER: ${RABBITMQ_USER}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      WORLDCUP_SERVICE_URL: http://worldcup-service:8084
     networks:
       - world-cup-network
     depends_on:

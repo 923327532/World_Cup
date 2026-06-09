@@ -86,7 +86,7 @@ export class PredictionApiService {
         catchError(() =>
           of([
             { id: 1, code: 'SCORE', name: 'Marcador exacto', points: 8 },
-            { id: 2, code: 'WINNER', name: 'Ganador', points: 5 },
+            { id: 2, code: 'WINNER', name: 'Ganador', points: 3 },
           ]),
         ),
       );

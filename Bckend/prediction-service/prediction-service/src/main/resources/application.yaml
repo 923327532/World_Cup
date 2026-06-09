@@ -42,3 +42,7 @@ management:
   endpoint:
     health:
       show-details: always
+
+services:
+  worldcup:
+    url: ${WORLDCUP_SERVICE_URL:http://localhost:8084}

@@ -1,6 +1,8 @@
 package prediction_service.service;
 
+import prediction_service.client.WorldCupClient;
 import prediction_service.dto.CreatePredictionRequest;
+import prediction_service.dto.MatchSummary;
 import prediction_service.dto.PredictionDTO;
 import prediction_service.entity.Prediction;
 import prediction_service.entity.PredictionType;
@@ -20,14 +22,22 @@ public class PredictionService {
     private final PredictionRepository predictionRepository;
     private final PredictionTypeRepository predictionTypeRepository;
     private final RabbitTemplate rabbitTemplate;
+    private final WorldCupClient worldCupClient;
 
     public PredictionDTO createPrediction(Long userId, CreatePredictionRequest request) {
+        MatchSummary match = requireOpenMatch(request.getMatchId());
+
+        if (predictionRepository.existsByUserIdAndRoomIdAndMatchId(userId, request.getRoomId(), request.getMatchId())) {
+            throw new RuntimeException("User already has a prediction for this match in this room");
+        }
+
         PredictionType predictionType = predictionTypeRepository.findById(request.getPredictionTypeId())
             .orElseThrow(() -> new RuntimeException("Prediction type not found"));
 
         Prediction prediction = new Prediction();
         prediction.setUserId(userId);
         prediction.setMatchId(request.getMatchId());
+        prediction.setRoomId(request.getRoomId());
         prediction.setPredictionType(predictionType);
         prediction.setPredictionValue(request.getPredictionValue());
         prediction.setCreatedAt(LocalDateTime.now());
@@ -38,7 +48,7 @@ public class PredictionService {
         // Publish event
         rabbitTemplate.convertAndSend("prediction.exchange", "prediction.created", prediction);
 
-        return toDTO(prediction);
+        return toDTO(prediction, match);
     }
 
     public PredictionDTO updatePrediction(Long userId, Long predictionId, String newValue) {
@@ -49,8 +59,8 @@ public class PredictionService {
             throw new RuntimeException("Unauthorized");
         }
 
-        // Check if locked
-        if (isPredictionLocked(predictionId)) {
+        MatchSummary match = getMatch(prediction.getMatchId());
+        if (isPredictionLocked(match)) {
             throw new RuntimeException("Prediction is locked");
         }
 
@@ -59,7 +69,7 @@ public class PredictionService {
 
         prediction = predictionRepository.save(prediction);
 
-        return toDTO(prediction);
+        return toDTO(prediction, match);
     }
 
     public List<PredictionDTO> getUserPredictions(Long userId) {
@@ -74,24 +84,57 @@ public class PredictionService {
             .toList();
     }
 
-    private boolean isPredictionLocked(Long predictionId) {
-        return false; // Implement lock logic
+    public List<PredictionDTO> getRoomPredictions(Long roomId) {
+        return predictionRepository.findByRoomId(roomId).stream()
+            .map(this::toDTO)
+            .toList();
+    }
+
+    private MatchSummary requireOpenMatch(Long matchId) {
+        MatchSummary match = getMatch(matchId);
+        if (isPredictionLocked(match)) {
+            throw new RuntimeException("Prediction is locked");
+        }
+        return match;
+    }
+
+    private MatchSummary getMatch(Long matchId) {
+        MatchSummary match = worldCupClient.getMatch(matchId);
+        if (match == null) {
+            throw new RuntimeException("Match not found");
+        }
+        return match;
+    }
+
+    private boolean isPredictionLocked(MatchSummary match) {
+        return match.kickoffTime() != null && !LocalDateTime.now().isBefore(match.kickoffTime());
     }
 
     private PredictionDTO toDTO(Prediction prediction) {
+        MatchSummary match = null;
+        try {
+            match = getMatch(prediction.getMatchId());
+        } catch (RuntimeException ignored) {
+            // Keep prediction history available even if match-service is temporarily unavailable.
+        }
+        return toDTO(prediction, match);
+    }
+
+    private PredictionDTO toDTO(Prediction prediction, MatchSummary match) {
         return new PredictionDTO(
             prediction.getId(),
             prediction.getUserId(),
             prediction.getMatchId(),
-            null, // homeTeam - would need to fetch from worldcup-service
-            null, // awayTeam - would need to fetch from worldcup-service
+            prediction.getRoomId(),
+            match != null ? match.homeTeam() : null,
+            match != null ? match.awayTeam() : null,
             prediction.getPredictionType().getId(),
             prediction.getPredictionType().getName(),
             prediction.getPredictionValue(),
             prediction.getPredictionType().getPoints(),
             prediction.getCreatedAt(),
             prediction.getUpdatedAt(),
-            false
+            match != null && isPredictionLocked(match)
         );
     }
 }
