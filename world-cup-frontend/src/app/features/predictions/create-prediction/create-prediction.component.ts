@@ -20,6 +20,7 @@ export class CreatePredictionComponent {
   readonly matches$ = this.matchApiService.getMatchesByDate(this.selectedDate);
   readonly predictionTypes$ = this.predictionApiService.getPredictionTypes();
   readonly form = this.fb.group({
+    roomId: [1, Validators.required],
     matchId: [1, Validators.required],
     predictionTypeId: [1, Validators.required],
     predictionValue: ['', Validators.required],

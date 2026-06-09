@@ -13,6 +13,7 @@ public class PredictionDTO {
     private Long id;
     private Long userId;
     private Long matchId;
+    private Long roomId;
     private String homeTeam;
     private String awayTeam;
     private Long predictionTypeId;

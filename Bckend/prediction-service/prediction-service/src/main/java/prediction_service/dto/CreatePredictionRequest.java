@@ -14,6 +14,9 @@ public class CreatePredictionRequest {
     private Long matchId;
 
     @NotNull
+    private Long roomId;
+
+    @NotNull
     private Long predictionTypeId;
 
     @NotNull

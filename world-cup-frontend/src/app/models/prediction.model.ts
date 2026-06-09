@@ -2,6 +2,7 @@ export interface PredictionDTO {
   id: number;
   userId: number;
   matchId: number;
+  roomId: number;
   homeTeam: string;
   awayTeam: string;
   predictionTypeId: number;
@@ -22,10 +23,11 @@ export interface PredictionTypeDTO {
 
 export interface CreatePredictionRequest {
   matchId: number;
+  roomId: number;
   predictionTypeId: number;
   predictionValue: string;
 }
 
 export interface UpdatePredictionRequest {
-  predictedValue: string;
+  predictionValue: string;
 }

@@ -21,6 +21,10 @@
 
     <form class="bet-form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field appearance="outline">
+        <mat-label>Sala</mat-label>
+        <input matInput type="number" min="1" formControlName="roomId" placeholder="ID de sala" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Partido</mat-label>
         <mat-select formControlName="matchId">
           <mat-option *ngFor="let match of matches$ | async" [value]="match.id">

@@ -24,6 +24,9 @@ public class Prediction {
     @Column(name = "match_id", nullable = false)
     private Long matchId;
 
+    @Column(name = "room_id", nullable = false)
+    private Long roomId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prediction_type_id", nullable = false)
     private PredictionType predictionType;

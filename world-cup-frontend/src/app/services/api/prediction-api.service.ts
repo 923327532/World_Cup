@@ -45,6 +45,7 @@ export class PredictionApiService {
       id: Date.now(),
       userId,
       matchId: payload.matchId,
+      roomId: payload.roomId,
       homeTeam: '',
       awayTeam: '',
       predictionTypeId: payload.predictionTypeId,
@@ -70,7 +71,7 @@ export class PredictionApiService {
         catchError(() => {
           const updated = this.localPredictions.find((item) => item.id === id);
           if (updated) {
-            updated.predictionValue = payload.predictedValue;
+            updated.predictionValue = payload.predictionValue;
             return of(updated);
           }
           return of(this.localPredictions[0]);
