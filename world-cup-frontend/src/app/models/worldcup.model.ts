@@ -4,7 +4,7 @@ export interface TournamentDTO {
   year: number;
   startDate: string;
   endDate: string;
-  status: string;
+  status?: string;
 }
 
 export interface TeamDTO {
@@ -27,10 +27,11 @@ export interface StadiumDTO {
 
 export interface PlayerDTO {
   id: number;
-  name: string;
-  position: string;
-  number: number;
-  teamId: number;
+  name?: string;
+  fullName?: string;
+  position?: string;
+  number?: number;
+  teamId?: number;
   photoUrl?: string;
 }
 
