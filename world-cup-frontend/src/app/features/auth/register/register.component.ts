@@ -18,8 +18,8 @@ export class RegisterComponent {
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
+    firstName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
+    lastName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
     role: ['STUDENT', Validators.required],
     studentCode: ['']
   });
@@ -35,13 +35,31 @@ export class RegisterComponent {
     this.isLoading = true;
 
     const value = this.form.getRawValue();
+    const firstName = (value.firstName || '').trim();
+    const lastName = (value.lastName || '').trim();
+    const email = (value.email || '').trim();
+    const studentCode = (value.studentCode || '').trim() || undefined;
+    const role = value.role as 'STUDENT' | 'TEACHER';
+
+    if (!firstName || !lastName || !email) {
+      this.isLoading = false;
+      this.errorMessage = 'Completa nombres, apellidos y correo con valores validos.';
+      return;
+    }
+
+    if (role === 'STUDENT' && !studentCode) {
+      this.isLoading = false;
+      this.errorMessage = 'El codigo estudiantil es obligatorio para estudiantes.';
+      return;
+    }
+
     this.authService.register(
-      value.firstName!,
-      value.lastName!,
-      value.email!,
+      firstName,
+      lastName,
+      email,
       value.password!,
-      value.role as 'STUDENT' | 'TEACHER',
-      value.studentCode || undefined
+      role,
+      studentCode
     ).subscribe({
       next: () => {
         this.isLoading = false;

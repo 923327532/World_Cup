@@ -25,7 +25,14 @@ export class AuthService {
 
   register(firstName: string, lastName: string, email: string, password: string, role: 'STUDENT' | 'TEACHER', studentCode?: string): Observable<AuthResponse> {
     const payload: RegisterRequest = { firstName, lastName, email, password, role, studentCode };
-    return this.authApiService.register(payload).pipe(tap((auth) => this.persist(auth)));
+    return this.authApiService.register(payload).pipe(
+      tap((auth) => {
+        // Registration response does not include a JWT; avoid storing a null/invalid session.
+        if (auth?.token) {
+          this.persist(auth);
+        }
+      })
+    );
   }
 
   verifyEmail(email: string, token: string): Observable<boolean> {
