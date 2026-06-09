@@ -44,4 +44,18 @@ public class WorldCupApiClient {
             .retrieve()
             .bodyToMono(String.class);
     }
+
+    public Mono<String> getTeamById(Long teamId) {
+        return webClient.get()
+            .uri("/get/team/{teamId}", teamId)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
+
+    public Mono<String> getStadiumById(Long stadiumId) {
+        return webClient.get()
+            .uri("/get/stadium/{stadiumId}", stadiumId)
+            .retrieve()
+            .bodyToMono(String.class);
+    }
 }
