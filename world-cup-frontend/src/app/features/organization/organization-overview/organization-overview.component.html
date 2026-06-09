@@ -1,0 +1,38 @@
+<section class="page">
+  <header>
+    <h1>Organizacion</h1>
+    <p>Datos academicos y catalogos institucionales.</p>
+  </header>
+
+  <mat-card *ngIf="user$ | async as user">
+    <mat-card-title>Perfil academico</mat-card-title>
+    <mat-card-content *ngIf="profile$ | async as profile">
+      <div class="row"><strong>Rol:</strong><span>{{ user.role }}</span></div>
+      <div class="row"><strong>Usuario:</strong><span>{{ user.email }}</span></div>
+      <div class="row" *ngIf="user.role === 'TEACHER' && profile?.specialization"><strong>Especialidad:</strong><span>{{ profile?.specialization }}</span></div>
+      <div class="row" *ngIf="user.role !== 'TEACHER' && profile?.studentCode"><strong>Codigo:</strong><span>{{ profile?.studentCode }}</span></div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="grid" *ngIf="summary$ | async as summary">
+    <mat-card>
+      <mat-card-title>Campus</mat-card-title>
+      <mat-card-content>{{ summary[0].length }} disponibles</mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Departamentos</mat-card-title>
+      <mat-card-content>{{ summary[1].length }} disponibles</mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Carreras</mat-card-title>
+      <mat-card-content>{{ summary[2].length }} disponibles</mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Avatares</mat-card-title>
+      <mat-card-content>{{ summary[3].length }} disponibles</mat-card-content>
+    </mat-card>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<section class="page">
+  <header>
+    <h1>Cuenta</h1>
+    <p>Administra tu perfil y accesos.</p>
+  </header>
+
+  <mat-card *ngIf="user$ | async as user">
+    <mat-card-header>
+      <mat-card-title>{{ user.firstName || user.email }}</mat-card-title>
+      <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row"><strong>Email:</strong><span>{{ user.email }}</span></div>
+      <div class="row"><strong>ID:</strong><span>{{ user.userId }}</span></div>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" routerLink="/app/notifications">Notificaciones</a>
+      <a mat-stroked-button routerLink="/app/organization">Organizacion</a>
+    </mat-card-actions>
+  </mat-card>
+</section>

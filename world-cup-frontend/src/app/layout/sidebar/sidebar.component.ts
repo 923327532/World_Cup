@@ -25,6 +25,9 @@ export class SidebarComponent {
     { icon: 'leaderboard', label: 'Rankings', route: '/app/rankings' },
     { icon: 'forum', label: 'Social', route: '/app/social', roles: ['STUDENT', 'TEACHER'] },
     { icon: 'workspace_premium', label: 'Logros', route: '/app/gamification', roles: ['STUDENT', 'TEACHER'] },
+    { icon: 'groups', label: 'Grupos', route: '/app/groups', roles: ['STUDENT', 'TEACHER'] },
+    { icon: 'notifications', label: 'Notificaciones', route: '/app/notifications', roles: ['STUDENT', 'TEACHER', 'ADMIN'] },
+    { icon: 'badge', label: 'Cuenta', route: '/app/account', roles: ['STUDENT', 'TEACHER', 'ADMIN'] },
     { icon: 'admin_panel_settings', label: 'Admin', route: '/admin', roles: ['ADMIN'] },
   ];
 

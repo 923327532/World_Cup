@@ -1,0 +1,66 @@
+<section class="page">
+  <header>
+    <h1>Grupos</h1>
+    <p>Crea grupos privados o unete con codigo de invitacion.</p>
+  </header>
+
+  <div class="forms">
+    <mat-card>
+      <mat-card-title>Crear grupo</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="createForm" (ngSubmit)="createGroup()" class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Descripcion</mat-label>
+            <input matInput formControlName="description" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Maximo de miembros</mat-label>
+            <input matInput type="number" formControlName="maxMembers" />
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" type="submit" [disabled]="createForm.invalid">
+            Crear
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Unirme por codigo</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="joinForm" (ngSubmit)="joinGroup()" class="join">
+          <mat-form-field appearance="outline">
+            <mat-label>Codigo de invitacion</mat-label>
+            <input matInput formControlName="inviteCode" />
+          </mat-form-field>
+
+          <button mat-stroked-button type="submit" [disabled]="joinForm.invalid">Unirme</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card>
+    <mat-card-title>Mis grupos</mat-card-title>
+    <mat-card-content>
+      <div class="group-list" *ngIf="groups.length; else empty">
+        <div class="group-item" *ngFor="let group of groups">
+          <div>
+            <strong>{{ group.name }}</strong>
+            <p>{{ group.description || 'Sin descripcion' }}</p>
+          </div>
+          <span>{{ group.maxMembers || 0 }} miembros</span>
+        </div>
+      </div>
+      <ng-template #empty>
+        <p class="empty">Todavia no tienes grupos registrados.</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</section>

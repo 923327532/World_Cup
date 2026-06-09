@@ -51,6 +51,26 @@ const routes: Routes = [
         loadChildren: () =>
           import('./features/gamification/gamification.module').then((m) => m.GamificationModule),
       },
+      {
+        path: 'account',
+        loadChildren: () =>
+          import('./features/account/account.module').then((m) => m.AccountModule),
+      },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('./features/notifications/notifications.module').then((m) => m.NotificationsModule),
+      },
+      {
+        path: 'organization',
+        loadChildren: () =>
+          import('./features/organization/organization.module').then((m) => m.OrganizationModule),
+      },
+      {
+        path: 'groups',
+        loadChildren: () =>
+          import('./features/groups/groups.module').then((m) => m.GroupsModule),
+      },
     ],
   },
   {
