@@ -27,7 +27,7 @@
         <h2>Accesos rápidos al Mundial</h2>
       </div>
       <span>
-        Perfil activo: {{ (role$ | async) || 'STUDENT' }}. Cada apartado mapea endpoints reales del backend para ese rol.
+        Perfil activo: {{ (role$ | async) || 'STUDENT' }}. Este panel muestra accesos funcionales segun tu rol.
       </span>
     </div>
 
@@ -38,9 +38,9 @@
             <span>01</span>
             <h3>Panel Docente</h3>
             <ul>
-              <li>/api/organization/teacher-profiles</li>
-              <li>/api/organization/departments</li>
-              <li>/api/organization/careers</li>
+              <li>Consulta tu informacion academica.</li>
+              <li>Revisa facultades y carreras asociadas.</li>
+              <li>Accede a herramientas de seguimiento.</li>
             </ul>
             <a mat-flat-button color="primary" routerLink="/app/dashboard">Ver perfil docente</a>
           </article>
@@ -49,9 +49,9 @@
             <span>02</span>
             <h3>Partidos y Mundial</h3>
             <ul>
-              <li>/api/worldcup/tournaments/current</li>
-              <li>/api/worldcup/matches/live</li>
-              <li>/api/worldcup/matches/date/&#123;date&#125;</li>
+              <li>Visualiza torneo y fase actual.</li>
+              <li>Consulta partidos en vivo.</li>
+              <li>Filtra encuentros por fecha.</li>
             </ul>
             <a mat-flat-button color="primary" routerLink="/app/matches">Ver partidos</a>
           </article>
@@ -60,9 +60,9 @@
             <span>03</span>
             <h3>Rankings Académicos</h3>
             <ul>
-              <li>/api/leaderboard/global</li>
-              <li>/api/leaderboard/department/&#123;departmentId&#125;</li>
-              <li>/api/leaderboard/career/&#123;careerId&#125;</li>
+              <li>Ranking general de participantes.</li>
+              <li>Comparacion por carrera y departamento.</li>
+              <li>Seguimiento de progreso por puntaje.</li>
             </ul>
             <a mat-flat-button color="primary" routerLink="/app/rankings">Ver rankings</a>
           </article>
@@ -71,9 +71,9 @@
             <span>04</span>
             <h3>Comunidad</h3>
             <ul>
-              <li>/api/social/comments/match/&#123;matchId&#125;</li>
-              <li>/api/social/reactions</li>
-              <li>/api/notifications/user/&#123;userId&#125;</li>
+              <li>Participa en comentarios por partido.</li>
+              <li>Reacciona a publicaciones en tiempo real.</li>
+              <li>Recibe notificaciones del campeonato.</li>
             </ul>
             <a mat-flat-button color="primary" routerLink="/app/social">Ir a comunidad</a>
           </article>
@@ -86,9 +86,9 @@
           <span>01</span>
           <h3>Predicciones</h3>
           <ul>
-            <li>/api/predictions</li>
-            <li>/api/predictions/user/&#123;userId&#125;</li>
-            <li>/api/predictions/match/&#123;matchId&#125;</li>
+            <li>Crea y edita tus pronosticos.</li>
+            <li>Revisa tu historial por partido.</li>
+            <li>Sigue el estado de cada apuesta.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/predictions">Ver pronósticos</a>
         </article>
@@ -97,9 +97,9 @@
           <span>02</span>
           <h3>Partidos</h3>
           <ul>
-            <li>/api/worldcup/matches/date/&#123;date&#125;</li>
-            <li>/api/worldcup/matches/&#123;id&#125;</li>
-            <li>/api/matches</li>
+            <li>Consulta fixtures diarios.</li>
+            <li>Observa marcadores y estados en vivo.</li>
+            <li>Explora el detalle de cada encuentro.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/matches">Ver partidos</a>
         </article>
@@ -108,10 +108,9 @@
           <span>03</span>
           <h3>Ranking</h3>
           <ul>
-            <li>/api/leaderboard/global</li>
-            <li>/api/leaderboard/campus/&#123;campusId&#125;</li>
-            <li>/api/leaderboard/career/&#123;careerId&#125;</li>
-            <li>/api/leaderboard/department/&#123;departmentId&#125;</li>
+            <li>Visualiza el top global.</li>
+            <li>Compara resultados por sede y carrera.</li>
+            <li>Encuentra tu posicion actual.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/rankings">Ver clasificaciones</a>
         </article>
@@ -120,31 +119,31 @@
           <span>04</span>
           <h3>Social</h3>
           <ul>
-            <li>/api/social/comments/match/&#123;matchId&#125;</li>
-            <li>/api/social/reactions</li>
+            <li>Comparte opiniones durante los partidos.</li>
+            <li>Interactua con la comunidad.</li>
+            <li>Descubre tendencias en tiempo real.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/social">Ir a la comunidad</a>
         </article>
 
         <article class="hub-card hub-card--paper">
           <span>05</span>
-          <h3>Autenticación</h3>
+          <h3>Cuenta</h3>
           <ul>
-            <li>/api/auth/login</li>
-            <li>/api/auth/register</li>
-            <li>/api/auth/verify-email</li>
+            <li>Gestiona el acceso a tu perfil.</li>
+            <li>Actualiza datos de tu cuenta.</li>
+            <li>Mantiene tu sesion segura.</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/auth/login">Ingresar</a>
+          <a mat-flat-button color="primary" routerLink="/app/dashboard">Ver cuenta</a>
         </article>
 
         <article class="hub-card hub-card--cyan-light">
           <span>06</span>
           <h3>Gamificación</h3>
           <ul>
-            <li>/api/gamification/badges</li>
-            <li>/api/gamification/rewards</li>
-            <li>/api/scoring/user/&#123;userId&#125;</li>
-            <li>/api/scoring/user/&#123;userId&#125;/history</li>
+            <li>Desbloquea insignias y recompensas.</li>
+            <li>Consulta tus puntos acumulados.</li>
+            <li>Revisa tu progreso historico.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/gamification">Ver logros</a>
         </article>
@@ -153,7 +152,9 @@
           <span>07</span>
           <h3>Notificaciones</h3>
           <ul>
-            <li>/api/notifications/user/&#123;userId&#125;</li>
+            <li>Alertas de partidos y resultados.</li>
+            <li>Novedades de tus predicciones.</li>
+            <li>Mensajes importantes del sistema.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/dashboard">Notificaciones</a>
         </article>
@@ -162,10 +163,9 @@
           <span>08</span>
           <h3>Organización</h3>
           <ul>
-            <li>/api/organization/campuses</li>
-            <li>/api/organization/departments</li>
-            <li>/api/organization/careers</li>
-            <li>/api/organization/avatars</li>
+            <li>Datos de sede, facultad y carrera.</li>
+            <li>Configuracion academica personal.</li>
+            <li>Personalizacion de avatar.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/dashboard">Mi perfil</a>
         </article>
@@ -174,9 +174,9 @@
           <span>09</span>
           <h3>Selecciones</h3>
           <ul>
-            <li>/api/teams</li>
-            <li>/api/players/team/&#123;teamId&#125;</li>
-            <li>/api/players/&#123;id&#125;</li>
+            <li>Consulta equipos clasificados.</li>
+            <li>Revisa plantillas y jugadores.</li>
+            <li>Explora estadisticas destacadas.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/matches">Ver selecciones</a>
         </article>
@@ -185,9 +185,9 @@
           <span>10</span>
           <h3>Grupos</h3>
           <ul>
-            <li>/api/groups</li>
-            <li>/api/groups/&#123;id&#125;</li>
-            <li>/api/groups/join/&#123;inviteCode&#125;</li>
+            <li>Crea grupos privados con amigos.</li>
+            <li>Unete mediante invitacion.</li>
+            <li>Compite en rankings por grupo.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/app/dashboard">Ver grupos</a>
         </article>
@@ -210,10 +210,9 @@
           <span>01</span>
           <h3>Gestión de Partidos</h3>
           <ul>
-            <li>/api/admin/matches</li>
-            <li>/api/admin/matches/&#123;id&#125;</li>
-            <li>/api/admin/matches/status/&#123;status&#125;</li>
-            <li>/api/admin/matches/&#123;id&#125;/result</li>
+            <li>Crear, editar y cerrar partidos.</li>
+            <li>Actualizar marcador oficial.</li>
+            <li>Controlar estado de cada encuentro.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/admin/matches">Administrar partidos</a>
         </article>
@@ -222,9 +221,9 @@
           <span>02</span>
           <h3>Auditoría</h3>
           <ul>
-            <li>/api/admin/audit</li>
-            <li>/api/admin/audit/admin/&#123;adminId&#125;</li>
-            <li>/api/admin/audit/entity?entityType=&#123;type&#125;&entityId=&#123;id&#125;</li>
+            <li>Historial de cambios administrativos.</li>
+            <li>Trazabilidad por usuario y entidad.</li>
+            <li>Control de acciones criticas.</li>
           </ul>
           <a mat-flat-button color="primary" routerLink="/admin/audit">Ver auditoría</a>
         </article>
