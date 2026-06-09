@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { EMPTY, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { NotificationApiService, NotificationDTO } from '../../../services/api/notification-api.service';
 
@@ -14,7 +14,7 @@ export class NotificationsCenterComponent {
   private readonly notificationApiService = inject(NotificationApiService);
 
   readonly notifications$ = this.authService.user$.pipe(
-    switchMap((user) => (user ? this.notificationApiService.getUserNotifications(user.userId) : EMPTY)),
+    switchMap((user) => (user ? this.notificationApiService.getUserNotifications(user.userId) : of([]))),
   );
 
   markAsRead(notification: NotificationDTO): void {
