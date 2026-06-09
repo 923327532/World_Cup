@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { AdminGuard } from './core/guards/admin.guard';
 import { DashboardLayoutComponent } from './layout/dashboard-layout/dashboard-layout.component';
 import { PublicLayoutComponent } from './layout/public-layout/public-layout.component';
 
@@ -55,7 +56,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: DashboardLayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, AdminGuard],
     loadChildren: () => import('./features/admin/admin.module').then((m) => m.AdminModule),
   },
   { path: '**', redirectTo: '' },

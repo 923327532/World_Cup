@@ -17,12 +17,16 @@ export class DashboardPageComponent implements OnInit {
 
   readonly tournament$ = this.worldcupApiService.getCurrentTournament();
   readonly user$ = this.authService.user$;
+  readonly role$ = this.user$.pipe(map((user) => user?.role || 'STUDENT'));
   readonly isAdmin$ = this.authService.user$.pipe(map((user) => user?.role === 'ADMIN'));
+  readonly isTeacher$ = this.authService.user$.pipe(map((user) => user?.role === 'TEACHER'));
   readonly score$ = this.authService.user$.pipe(
     switchMap((user) => (user ? this.scoringApiService.getUserScore(user.userId) : of({ userId: 0, totalPoints: 0 })))
   );
 
   ngOnInit(): void {
-    this.worldcupApiService.syncWorldCupData().subscribe();
+    if (this.authService.hasRole('ADMIN')) {
+      this.worldcupApiService.syncWorldCupData().subscribe();
+    }
   }
 }

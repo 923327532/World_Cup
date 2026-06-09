@@ -4,9 +4,13 @@
       <p>Resumen</p>
       <h1>{{ (tournament$ | async)?.name || 'Mundial 2026' }}</h1>
     </div>
-    <a mat-flat-button color="primary" routerLink="/predictions">
+    <a mat-flat-button color="primary" routerLink="/app/predictions" *ngIf="!(isAdmin$ | async)">
       <mat-icon>edit_note</mat-icon>
       Nueva prediccion
+    </a>
+    <a mat-flat-button color="primary" routerLink="/admin" *ngIf="isAdmin$ | async">
+      <mat-icon>admin_panel_settings</mat-icon>
+      Panel admin
     </a>
   </header>
 
@@ -23,11 +27,60 @@
         <h2>Accesos rápidos al Mundial</h2>
       </div>
       <span>
-        Cada apartado mapea a los endpoints de backend que hacen funcionar la app: apuestas, partidos, rankings, social, gamificación, notificaciones y datos de usuario.
+        Perfil activo: {{ (role$ | async) || 'STUDENT' }}. Cada apartado mapea endpoints reales del backend para ese rol.
       </span>
     </div>
 
     <ng-container *ngIf="!(isAdmin$ | async); else adminEndpointHub">
+      <ng-container *ngIf="isTeacher$ | async; else studentEndpointHub">
+        <div class="hub-grid">
+          <article class="hub-card hub-card--cyan">
+            <span>01</span>
+            <h3>Panel Docente</h3>
+            <ul>
+              <li>/api/organization/teacher-profiles</li>
+              <li>/api/organization/departments</li>
+              <li>/api/organization/careers</li>
+            </ul>
+            <a mat-flat-button color="primary" routerLink="/app/dashboard">Ver perfil docente</a>
+          </article>
+
+          <article class="hub-card hub-card--lime">
+            <span>02</span>
+            <h3>Partidos y Mundial</h3>
+            <ul>
+              <li>/api/worldcup/tournaments/current</li>
+              <li>/api/worldcup/matches/live</li>
+              <li>/api/worldcup/matches/date/&#123;date&#125;</li>
+            </ul>
+            <a mat-flat-button color="primary" routerLink="/app/matches">Ver partidos</a>
+          </article>
+
+          <article class="hub-card hub-card--coral">
+            <span>03</span>
+            <h3>Rankings Académicos</h3>
+            <ul>
+              <li>/api/leaderboard/global</li>
+              <li>/api/leaderboard/department/&#123;departmentId&#125;</li>
+              <li>/api/leaderboard/career/&#123;careerId&#125;</li>
+            </ul>
+            <a mat-flat-button color="primary" routerLink="/app/rankings">Ver rankings</a>
+          </article>
+
+          <article class="hub-card hub-card--ink">
+            <span>04</span>
+            <h3>Comunidad</h3>
+            <ul>
+              <li>/api/social/comments/match/&#123;matchId&#125;</li>
+              <li>/api/social/reactions</li>
+              <li>/api/notifications/user/&#123;userId&#125;</li>
+            </ul>
+            <a mat-flat-button color="primary" routerLink="/app/social">Ir a comunidad</a>
+          </article>
+        </div>
+      </ng-container>
+
+      <ng-template #studentEndpointHub>
       <div class="hub-grid">
         <article class="hub-card hub-card--lime">
           <span>01</span>
@@ -37,7 +90,7 @@
             <li>/api/predictions/user/&#123;userId&#125;</li>
             <li>/api/predictions/match/&#123;matchId&#125;</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/predictions">Ver pronósticos</a>
+          <a mat-flat-button color="primary" routerLink="/app/predictions">Ver pronósticos</a>
         </article>
 
         <article class="hub-card hub-card--cyan">
@@ -48,7 +101,7 @@
             <li>/api/worldcup/matches/&#123;id&#125;</li>
             <li>/api/matches</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/matches">Ver partidos</a>
+          <a mat-flat-button color="primary" routerLink="/app/matches">Ver partidos</a>
         </article>
 
         <article class="hub-card hub-card--coral">
@@ -60,7 +113,7 @@
             <li>/api/leaderboard/career/&#123;careerId&#125;</li>
             <li>/api/leaderboard/department/&#123;departmentId&#125;</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/rankings">Ver clasificaciones</a>
+          <a mat-flat-button color="primary" routerLink="/app/rankings">Ver clasificaciones</a>
         </article>
 
         <article class="hub-card hub-card--ink">
@@ -70,7 +123,7 @@
             <li>/api/social/comments/match/&#123;matchId&#125;</li>
             <li>/api/social/reactions</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/social">Ir a la comunidad</a>
+          <a mat-flat-button color="primary" routerLink="/app/social">Ir a la comunidad</a>
         </article>
 
         <article class="hub-card hub-card--paper">
@@ -93,7 +146,7 @@
             <li>/api/scoring/user/&#123;userId&#125;</li>
             <li>/api/scoring/user/&#123;userId&#125;/history</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/app">Ver logros</a>
+          <a mat-flat-button color="primary" routerLink="/app/gamification">Ver logros</a>
         </article>
 
         <article class="hub-card hub-card--coral-light">
@@ -102,7 +155,7 @@
           <ul>
             <li>/api/notifications/user/&#123;userId&#125;</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/app">Notificaciones</a>
+          <a mat-flat-button color="primary" routerLink="/app/dashboard">Notificaciones</a>
         </article>
 
         <article class="hub-card hub-card--soft">
@@ -114,7 +167,7 @@
             <li>/api/organization/careers</li>
             <li>/api/organization/avatars</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/app">Mi perfil</a>
+          <a mat-flat-button color="primary" routerLink="/app/dashboard">Mi perfil</a>
         </article>
 
         <article class="hub-card hub-card--ink-light">
@@ -125,7 +178,7 @@
             <li>/api/players/team/&#123;teamId&#125;</li>
             <li>/api/players/&#123;id&#125;</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/matches">Ver selecciones</a>
+          <a mat-flat-button color="primary" routerLink="/app/matches">Ver selecciones</a>
         </article>
 
         <article class="hub-card hub-card--lime-light">
@@ -136,9 +189,10 @@
             <li>/api/groups/&#123;id&#125;</li>
             <li>/api/groups/join/&#123;inviteCode&#125;</li>
           </ul>
-          <a mat-flat-button color="primary" routerLink="/app">Ver grupos</a>
+          <a mat-flat-button color="primary" routerLink="/app/dashboard">Ver grupos</a>
         </article>
       </div>
+      </ng-template>
     </ng-container>
 
     <ng-template #adminEndpointHub>

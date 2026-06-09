@@ -4,7 +4,6 @@ import { Observable, catchError, delay, of, retry, tap } from 'rxjs';
 import { API_ENDPOINTS, CACHE_TTL } from '../../core/constants/api.constants';
 import { CacheService } from '../../core/services/cache.service';
 import { Match } from '../../models/match.model';
-import { MOCK_MATCHES } from './mock-data';
 import { SILENT_ERROR } from '../../core/interceptors/error.interceptor';
 
 @Injectable({ providedIn: 'root' })
@@ -20,7 +19,7 @@ export class MatchApiService {
         .get<
           Match[]
         >(`${API_ENDPOINTS.worldcup}/matches/date/${date}`, { context: this.silentContext() })
-        .pipe(catchError(() => of(MOCK_MATCHES))),
+        .pipe(catchError(() => of([]))),
     );
   }
 
@@ -30,7 +29,7 @@ export class MatchApiService {
         .get<
           Match[]
         >(`${API_ENDPOINTS.worldcup}/matches/live`, { context: this.silentContext() })
-        .pipe(catchError(() => of(MOCK_MATCHES.filter((m) => m.status === 'LIVE')))),
+        .pipe(catchError(() => of([]))),
     );
   }
 
@@ -39,7 +38,15 @@ export class MatchApiService {
       .get<Match>(`${API_ENDPOINTS.worldcup}/matches/${id}`, { context: this.silentContext() })
       .pipe(
         retry({ count: 3, delay: (_error, count) => of(count).pipe(delay(count * 1000)) }),
-        catchError(() => of(MOCK_MATCHES.find((match) => match.id === id) || MOCK_MATCHES[0])),
+        catchError(() =>
+          of({
+            id,
+            homeTeam: 'N/A',
+            awayTeam: 'N/A',
+            kickoffTime: new Date().toISOString(),
+            status: 'SCHEDULED',
+          }),
+        ),
       );
   }
 

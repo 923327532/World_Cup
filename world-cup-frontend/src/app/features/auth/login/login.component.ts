@@ -54,7 +54,9 @@ export class LoginComponent {
       next: () => {
         this.isLoading = false;
         this.notificationService.success('Sesión iniciada');
-        this.router.navigate(['/app/dashboard']);
+        const user = this.authService.getCurrentUser();
+        const target = user?.role === 'ADMIN' ? '/admin' : '/app/dashboard';
+        this.router.navigate([target]);
       },
       error: (error: Error) => {
         this.isLoading = false;
