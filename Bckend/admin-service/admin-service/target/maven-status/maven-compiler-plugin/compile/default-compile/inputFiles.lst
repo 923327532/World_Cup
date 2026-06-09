@@ -1,0 +1,16 @@
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/AdminServiceApplication.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/config/RabbitMQConfig.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/controller/AdminAuditController.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/controller/AdminMatchController.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/dto/AdminAuditLogResponse.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/dto/ManualMatchRequest.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/dto/ManualMatchResponse.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/dto/MatchResultUpdateRequest.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/entity/AdminAuditLog.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/entity/ManualMatch.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/exception/GlobalExceptionHandler.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/exception/ResourceNotFoundException.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/repository/AdminAuditLogRepository.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/repository/ManualMatchRepository.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/service/AdminAuditService.java
+/Users/rafael/projects/World_Cup/Bckend/admin-service/admin-service/src/main/java/admin_service/service/AdminMatchService.java

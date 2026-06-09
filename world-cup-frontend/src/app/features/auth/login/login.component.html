@@ -1,18 +1,26 @@
-<h1>Iniciar sesion</h1>
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" />
-  </mat-form-field>
+<section class="auth-shell">
+  <p class="auth-kicker"><span></span>Acceso oficial</p>
+  <h1>INICIA TU<br /><em>JUGADA.</em></h1>
+  <p class="auth-copy">
+    Entra al Betting Center y administra tus pronosticos para cada partido del Mundial.
+  </p>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Password</mat-label>
-    <input matInput type="password" formControlName="password" />
-  </mat-form-field>
+  <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" />
+    </mat-form-field>
 
-  <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
-    <mat-icon>login</mat-icon>
-    Entrar
-  </button>
-</form>
-<a routerLink="/auth/register">Crear cuenta</a>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+
+    <button class="auth-submit" mat-flat-button type="submit" [disabled]="form.invalid">
+      <mat-icon>login</mat-icon>
+      Entrar al panel
+    </button>
+  </form>
+
+  <a class="auth-link" routerLink="/auth/register">Crear cuenta</a>
+</section>

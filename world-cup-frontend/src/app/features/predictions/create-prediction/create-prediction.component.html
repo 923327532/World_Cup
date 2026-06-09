@@ -1,13 +1,25 @@
-<section class="page">
-  <header>
-    <h1>Predicciones</h1>
-    <a mat-stroked-button routerLink="/predictions/history">
+<section class="bets-page">
+  <header class="bets-head">
+    <div>
+      <p class="section-index">01 / CENTRO DE APUESTAS</p>
+      <h1>ARMA TU<br /><em>PREDICCION.</em></h1>
+      <p>
+        Selecciona el partido, define el mercado y guarda tu jugada antes del cierre de cuotas.
+      </p>
+    </div>
+    <a class="history-link" mat-stroked-button routerLink="/predictions/history">
       <mat-icon>history</mat-icon>
       Historial
     </a>
   </header>
-  <mat-card>
-    <form [formGroup]="form" (ngSubmit)="submit()">
+
+  <section class="bet-card">
+    <div class="bet-card__meta">
+      <span><i></i>MERCADOS DISPONIBLES</span>
+      <b>{{ selectedDate }}</b>
+    </div>
+
+    <form class="bet-form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-form-field appearance="outline">
         <mat-label>Partido</mat-label>
         <mat-select formControlName="matchId">
@@ -28,10 +40,10 @@
         <mat-label>Valor</mat-label>
         <input matInput formControlName="predictionValue" placeholder="2-1, ganador, etc." />
       </mat-form-field>
-      <button mat-flat-button color="primary" type="submit">
+      <button class="bet-save" mat-flat-button type="submit">
         <mat-icon>save</mat-icon>
-        Guardar
+        Guardar apuesta
       </button>
     </form>
-  </mat-card>
+  </section>
 </section>

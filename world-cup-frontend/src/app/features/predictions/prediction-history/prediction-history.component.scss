@@ -1,33 +1,110 @@
-.page {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.5rem;
-}
-
-header,
-mat-card {
-  align-items: center;
-  display: flex;
-  gap: 1rem;
-  justify-content: space-between;
-}
-
-mat-card {
-  border-radius: 8px;
-  box-shadow: none;
-  padding: 1rem;
-}
-
-span,
-em {
-  color: #64748b;
+:host {
+  --ink: #10131b;
+  --paper: #f3f1eb;
+  --lime: #c8ff36;
+  --coral: #ff5b4d;
   display: block;
+}
+
+.history-page {
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+.history-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.section-index {
+  margin: 0;
+  color: rgba(16, 19, 27, 0.76);
+  font: 800 0.72rem/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.12em;
+}
+
+h1 {
+  margin: 0.35rem 0 0;
+  color: var(--ink);
+  font: 900 clamp(2rem, 5vw, 2.8rem)/0.9 'Barlow Condensed', sans-serif;
+}
+
+h1 em {
+  color: var(--coral);
+  font-style: normal;
+}
+
+.new-link {
+  border-radius: 999px;
+  border: 1px solid rgba(16, 19, 27, 0.1);
+  background: linear-gradient(120deg, var(--lime), color-mix(in srgb, var(--lime) 78%, white));
+  color: var(--ink) !important;
+  font: 800 0.74rem/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.history-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.8fr) minmax(120px, 1fr) auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  border: 1px solid rgba(16, 19, 27, 0.1);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(57, 213, 210, 0.09), transparent 44%),
+    color-mix(in srgb, var(--paper) 86%, white);
+}
+
+.history-card__match strong {
+  color: var(--ink);
+  display: block;
+}
+
+.history-card__match span,
+em {
+  display: block;
+  color: rgba(16, 19, 27, 0.6);
   font-style: normal;
 }
 
 b {
-  background: #111827;
-  border-radius: 8px;
+  justify-self: start;
+  border-radius: 999px;
+  background: var(--ink);
   color: white;
-  padding: 0.45rem 0.75rem;
+  padding: 0.45rem 0.85rem;
+  font: 700 0.8rem/1 'Roboto', sans-serif;
+}
+
+em {
+  justify-self: end;
+  color: var(--coral);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .history-card {
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+  }
+
+  em,
+  b {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .history-head {
+    flex-direction: column;
+  }
+
+  .new-link {
+    align-self: flex-start;
+  }
 }

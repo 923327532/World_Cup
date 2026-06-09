@@ -1,26 +1,99 @@
 main {
+  --ink: #10131b;
+  --paper: #f3f1eb;
+  --lime: #c8ff36;
+  --coral: #ff5b4d;
+  --cyan: #39d5d2;
+  --night: #071219;
+  --line: rgba(255, 255, 255, 0.17);
+
+  position: relative;
+  overflow: hidden;
   align-items: center;
-  background: linear-gradient(135deg, #052e2b, #101827 55%, #7f1d1d);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(57, 213, 210, 0.2), transparent 42%),
+    radial-gradient(circle at 88% 84%, rgba(255, 91, 77, 0.24), transparent 38%),
+    linear-gradient(130deg, #061018, #111724 56%, #1d1a22);
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding: 1.25rem;
+  padding: 1.5rem;
 }
 
 .panel {
-  background: #ffffff;
-  border-radius: 8px;
+  position: relative;
+  z-index: 3;
+  background: color-mix(in srgb, var(--paper) 92%, white);
+  border: 1px solid rgba(16, 19, 27, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 26px 60px rgba(4, 12, 20, 0.45);
   max-width: 460px;
-  padding: 1.5rem;
+  padding: 1.6rem;
   width: 100%;
 }
 
 .brand {
   align-items: center;
-  color: #0f766e;
+  color: var(--ink);
   display: flex;
-  font-size: 1.1rem;
-  font-weight: 800;
-  gap: 0.6rem;
-  margin-bottom: 1.25rem;
+  font: 800 0.95rem/0.95 'Barlow Condensed', sans-serif;
+  gap: 0.75rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 1.3rem;
+}
+
+.brand__ball {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.15rem;
+}
+
+.auth-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.auth-glow--lime {
+  top: -130px;
+  left: -120px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(200, 255, 54, 0.44), transparent 66%);
+}
+
+.auth-glow--coral {
+  right: -150px;
+  bottom: -140px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(255, 91, 77, 0.36), transparent 67%);
+}
+
+.auth-number {
+  position: absolute;
+  right: clamp(12px, 4vw, 48px);
+  bottom: -22px;
+  z-index: 1;
+  color: transparent;
+  font: 900 clamp(8rem, 22vw, 15rem)/0.82 'Barlow Condensed', sans-serif;
+  -webkit-text-stroke: 2px var(--line);
+}
+
+@media (max-width: 540px) {
+  .panel {
+    border-radius: 20px;
+    padding: 1.25rem;
+  }
+
+  .auth-number {
+    right: 2px;
+    bottom: -10px;
+    font-size: 7.3rem;
+  }
 }

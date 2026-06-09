@@ -1,21 +1,101 @@
-h1 {
-  color: #111827;
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
+:host {
+  --ink: #10131b;
+  --paper: #f3f1eb;
+  --lime: #c8ff36;
+  --coral: #ff5b4d;
+  --line: rgba(16, 19, 27, 0.18);
+  display: block;
 }
 
-form {
+.auth-shell {
+  color: var(--ink);
+}
+
+.auth-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font: 800 0.72rem/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.auth-kicker span {
+  width: 28px;
+  border-top: 2px solid currentColor;
+}
+
+h1 {
+  margin: 0.4rem 0 0;
+  font: 900 clamp(2rem, 8vw, 2.8rem)/0.9 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+h1 em {
+  color: var(--coral);
+  font-style: normal;
+}
+
+.auth-copy {
+  margin: 0.8rem 0 1.2rem;
+  color: rgba(16, 19, 27, 0.78);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.auth-form {
   display: grid;
   gap: 0.85rem;
 }
 
-button {
-  height: 46px;
+.auth-submit {
+  height: 52px;
+  border: 1px solid rgba(16, 19, 27, 0.08);
+  background: linear-gradient(120deg, var(--lime), color-mix(in srgb, var(--lime) 78%, white));
+  color: var(--ink);
+  font: 800 0.86rem/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-a {
-  color: #0f766e;
-  display: inline-block;
+.auth-link {
+  display: inline-flex;
   margin-top: 1rem;
+  color: var(--ink);
+  font: 800 0.76rem/1 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.08em;
   text-decoration: none;
+  text-transform: uppercase;
+}
+
+.auth-link:hover {
+  color: var(--coral);
+}
+
+:host ::ng-deep .mat-mdc-form-field {
+  width: 100%;
+}
+
+:host ::ng-deep .mat-mdc-text-field-wrapper {
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--paper) 82%, white);
+}
+
+:host ::ng-deep .mdc-notched-outline__leading,
+:host ::ng-deep .mdc-notched-outline__notch,
+:host ::ng-deep .mdc-notched-outline__trailing {
+  border-color: var(--line) !important;
+}
+
+:host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+:host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+:host ::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: var(--coral) !important;
+}
+
+@media (max-width: 540px) {
+  h1 {
+    font-size: 2.1rem;
+  }
 }
