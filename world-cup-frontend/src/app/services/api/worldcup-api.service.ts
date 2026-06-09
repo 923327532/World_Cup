@@ -19,6 +19,12 @@ export class WorldcupApiService {
       .pipe(catchError(() => of([])));
   }
 
+  syncWorldCupData(): Observable<{ message: string }> {
+    return this.http
+      .post<{ message: string }>(`${API_ENDPOINTS.worldcup}/sync`, {}, { context: this.silentContext() })
+      .pipe(catchError(() => of({ message: 'Sync request skipped' })));
+  }
+
   getCurrentTournament(): Observable<TournamentDTO> {
     return this.http
       .get<TournamentDTO>(`${API_ENDPOINTS.tournaments}/current`, { context: this.silentContext() })

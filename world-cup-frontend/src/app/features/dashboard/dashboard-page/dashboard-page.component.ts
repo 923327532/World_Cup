@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { map, of, switchMap } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { ScoringApiService } from '../../../services/api/scoring-api.service';
@@ -10,7 +10,7 @@ import { WorldcupApiService } from '../../../services/api/worldcup-api.service';
   styleUrls: ['./dashboard-page.component.scss'],
   standalone: false
 })
-export class DashboardPageComponent {
+export class DashboardPageComponent implements OnInit {
   private readonly worldcupApiService = inject(WorldcupApiService);
   private readonly scoringApiService = inject(ScoringApiService);
   private readonly authService = inject(AuthService);
@@ -21,4 +21,8 @@ export class DashboardPageComponent {
   readonly score$ = this.authService.user$.pipe(
     switchMap((user) => (user ? this.scoringApiService.getUserScore(user.userId) : of({ userId: 0, totalPoints: 0 })))
   );
+
+  ngOnInit(): void {
+    this.worldcupApiService.syncWorldCupData().subscribe();
+  }
 }

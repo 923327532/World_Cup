@@ -23,6 +23,7 @@ import worldcup_service.repository.TeamRepository;
 import worldcup_service.repository.TournamentRepository;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
@@ -153,13 +154,6 @@ public class MatchSyncScheduler {
             return;
         }
 
-        Tournament tournament = tournamentRepository.findByYear(2026)
-            .orElseGet(() -> tournamentRepository.findTopByOrderByYearDesc().orElse(null));
-        if (tournament == null) {
-            log.warn("No tournament found to attach matches");
-            return;
-        }
-
         try {
             JsonNode root = objectMapper.readTree(response);
             JsonNode matches = root.path("response");
@@ -168,7 +162,12 @@ public class MatchSyncScheduler {
                 return;
             }
 
+            Tournament tournament = ensureTournament(matches);
+
             int saved = 0;
+            LocalDate minDate = null;
+            LocalDate maxDate = null;
+
             for (JsonNode node : matches) {
                 Long apiMatchId = node.path("id").asLong();
                 Match match = matchRepository.findByApiMatchId(apiMatchId).orElseGet(Match::new);
@@ -187,6 +186,13 @@ public class MatchSyncScheduler {
                 match.setHomeTeamLabel(text(node, "home_team_label"));
                 match.setAwayTeamLabel(text(node, "away_team_label"));
                 match.setKickoffTime(parseDateTime(text(node, "local_date", "date")));
+
+                if (match.getKickoffTime() != null) {
+                    LocalDate kickoffDate = match.getKickoffTime().toLocalDate();
+                    minDate = minDate == null || kickoffDate.isBefore(minDate) ? kickoffDate : minDate;
+                    maxDate = maxDate == null || kickoffDate.isAfter(maxDate) ? kickoffDate : maxDate;
+                }
+
                 match.setStatus(resolveStatus(node));
                 match.setHomeScore(node.path("home_score").isMissingNode() ? null : node.path("home_score").asInt());
                 match.setAwayScore(node.path("away_score").isMissingNode() ? null : node.path("away_score").asInt());
@@ -195,10 +201,55 @@ public class MatchSyncScheduler {
                 saved++;
             }
 
+            if (minDate != null) {
+                tournament.setStartDate(minDate);
+            }
+            if (maxDate != null) {
+                tournament.setEndDate(maxDate);
+            }
+            tournamentRepository.save(tournament);
+
             log.info("Saved/updated {} matches", saved);
         } catch (Exception e) {
             log.error("Error syncing matches", e);
         }
+    }
+
+    private Tournament ensureTournament(JsonNode matches) {
+        Tournament tournament = tournamentRepository.findByYear(2026)
+            .orElseGet(() -> tournamentRepository.findTopByOrderByYearDesc().orElse(null));
+
+        if (tournament != null) {
+            if (tournament.getName() == null || tournament.getName().isBlank()) {
+                tournament.setName("FIFA World Cup");
+            }
+            if (tournament.getYear() == null) {
+                tournament.setYear(2026);
+            }
+            return tournament;
+        }
+
+        Tournament created = new Tournament();
+        created.setName("FIFA World Cup");
+        created.setYear(2026);
+
+        if (matches != null && matches.isArray()) {
+            LocalDate minDate = null;
+            LocalDate maxDate = null;
+            for (JsonNode node : matches) {
+                LocalDateTime dateTime = parseDateTime(text(node, "local_date", "date"));
+                if (dateTime == null) {
+                    continue;
+                }
+                LocalDate date = dateTime.toLocalDate();
+                minDate = minDate == null || date.isBefore(minDate) ? date : minDate;
+                maxDate = maxDate == null || date.isAfter(maxDate) ? date : maxDate;
+            }
+            created.setStartDate(minDate);
+            created.setEndDate(maxDate);
+        }
+
+        return tournamentRepository.save(created);
     }
 
     private Stadium resolveStadium(Long apiStadiumId) {
